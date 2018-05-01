@@ -1,3 +1,6 @@
-<p>
-  image-list works!
-</p>
+<h2>Image list</h2>
+<ul class="image-list">
+  <li *ngFor="let image of images">
+    <img [src]="image.imageToShow" (click)="goToImage(image.name)" alt="{{image.name}}">
+  </li>
+</ul>

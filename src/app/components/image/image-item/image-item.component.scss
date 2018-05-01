@@ -2,6 +2,7 @@
   display:flex;
   height: 100%;
 }
+
 mat-grid-tile {
   border: 1px solid red;
 }
@@ -31,6 +32,11 @@ div#images {
   width: 15%;
 }
 
+img {
+  max-width: 100%; // to maintain aspect ratio. You can use 100% if you don't care about that
+  height: auto;
+}
+
 div#images h2 {
   font-size: 1em;
   margin: 0;
@@ -45,6 +51,15 @@ div#images h2 {
 
 div#images li {
   list-style-type: none;
+  padding: 5px 5px 0;
+}
+
+div#images ul {
+  max-height:100%;
+  margin: 0;
+  -webkit-padding-start: 0;
+  -webkit-padding-end: 0;
+  overflow-y: scroll;
 }
 
 .current-slide {
@@ -66,6 +81,7 @@ div#properties {
   //left: 75%;
   width: 24.5%;
   //height: 98%;
+  padding: 10px;
   overflow: auto;
 }
 

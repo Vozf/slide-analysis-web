@@ -44,11 +44,11 @@
 
 <div class='container'>
     <div id='images'>
-        <h1>View</h1>
-        <div class='current-slide'>
-            <a class='load-slide' href='#'>Slide</a>
-        </div>
-        <h2>Associated images</h2>
+        <ul class="image-list">
+            <li *ngFor="let image of images">
+                <img [src]="image.imageToShow" alt="{{image.name}}">
+            </li>
+        </ul>
         <!--{% if associated %}-->
         <!--<ul class='associated-images'>-->
         <!--{% for name in associated|sort %}-->
@@ -59,14 +59,15 @@
         <!--{% endfor %}-->
         <!--</ul>-->
         <!--{% else %}-->
-        <span class='associated-images notice'>None</span>
+        <!--<span class='associated-images notice'>None</span>-->
         <!--{% endif %}-->
 
     </div>
     <app-image-display imageId='{{imageId}}' (select)='onSelect($event)'></app-image-display>
     <div id='properties'>
         <h1>Slide properties</h1>
-        <!--{% if properties %}-->
+        <!--<span class='notice'>None</span>-->
+        <img [src]="similarityMap.imageToShow" alt="{{similarityMap.name}}">
         <!--<div id='properties-inner'>-->
         <!--<dl>-->
         <!--{% for name in properties %}-->
@@ -76,7 +77,6 @@
         <!--</dl>-->
         <!--</div>-->
         <!--{% else %}-->
-        <span class='notice'>None</span>
         <!--{% endif %}-->
     </div>
 </div>
