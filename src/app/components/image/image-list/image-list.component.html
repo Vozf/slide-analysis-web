@@ -1,3 +1,8 @@
-<p>
-  image-list works!
-</p>
+<h2>Image list</h2>
+<ul class="image-list">
+    <li *ngFor="let image of images">
+        <a href="/images/{{image.name}}">
+            <img [src]="image.base64" alt="{{image.name}}">
+        </a>
+    </li>
+</ul>

@@ -8,17 +8,11 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { APIInterceptorService } from './apiinterceptor.service';
-import { ImageItemComponent } from './components/image/image-item/image-item.component';
-import { ImageListComponent } from './components/image/image-list/image-list.component';
-import { ImageDisplayComponent } from './components/image/image-display/image-display.component';
 import { MaterialModule } from './material.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ImageItemComponent,
-    ImageListComponent,
-    ImageDisplayComponent,
   ],
   imports: [
     BrowserModule,

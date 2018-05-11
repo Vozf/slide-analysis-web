@@ -1,83 +1,36 @@
-<!--<mat-grid-list cols='5' rowHeight='100px'>-->
-<!--<mat-grid-tile id='images' [colspan]='1'>-->
-<!--<h1>View</h1>-->
-<!--<div class='current-slide'>-->
-<!--<a class='load-slide' href='#'>Slide</a>-->
-<!--</div>-->
-<!--<h2>Associated images</h2>-->
-<!--&lt;!&ndash;{% if associated %}&ndash;&gt;-->
-<!--&lt;!&ndash;<ul class='associated-images'>&ndash;&gt;-->
-<!--&lt;!&ndash;{% for name in associated|sort %}&ndash;&gt;-->
-<!--&lt;!&ndash;<li><a class='load-slide' href='#'&ndash;&gt;-->
-<!--&lt;!&ndash;data-url='{{ associated[name] }}'>&ndash;&gt;-->
-<!--&lt;!&ndash;{{ name }}&ndash;&gt;-->
-<!--&lt;!&ndash;</a>&ndash;&gt;-->
-<!--&lt;!&ndash;{% endfor %}&ndash;&gt;-->
-<!--&lt;!&ndash;</ul>&ndash;&gt;-->
-<!--&lt;!&ndash;{% else %}&ndash;&gt;-->
-<!--<span class='associated-images notice'>None</span>-->
-<!--&lt;!&ndash;{% endif %}&ndash;&gt;-->
-
-<!--</mat-grid-tile>-->
-<!--<mat-grid-tile [colspan]='3'>-->
-<!--<app-image-display imageId='{{imageId}}' (select)='onSelect($event)'></app-image-display>-->
-<!--</mat-grid-tile>-->
-<!--<mat-grid-tile [colspan]='1'>-->
-<!--<div id='properties'>-->
-<!--<h1>Slide properties</h1>-->
-<!--&lt;!&ndash;{% if properties %}&ndash;&gt;-->
-<!--&lt;!&ndash;<div id='properties-inner'>&ndash;&gt;-->
-<!--&lt;!&ndash;<dl>&ndash;&gt;-->
-<!--&lt;!&ndash;{% for name in properties %}&ndash;&gt;-->
-<!--&lt;!&ndash;<dt>{{ name }}&ndash;&gt;-->
-<!--&lt;!&ndash;<dd>{{ properties[name] }}&ndash;&gt;-->
-<!--&lt;!&ndash;{% endfor %}&ndash;&gt;-->
-<!--&lt;!&ndash;</dl>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--&lt;!&ndash;{% else %}&ndash;&gt;-->
-<!--<span class='notice'>None</span>-->
-<!--&lt;!&ndash;{% endif %}&ndash;&gt;-->
-<!--</div>-->
-<!--</mat-grid-tile>-->
-<!--</mat-grid-list>-->
-
-
 <div class='container'>
     <div id='images'>
-        <h1>View</h1>
-        <div class='current-slide'>
-            <a class='load-slide' href='#'>Slide</a>
-        </div>
-        <h2>Associated images</h2>
-        <!--{% if associated %}-->
-        <!--<ul class='associated-images'>-->
-        <!--{% for name in associated|sort %}-->
-        <!--<li><a class='load-slide' href='#'-->
-        <!--data-url='{{ associated[name] }}'>-->
-        <!--{{ name }}-->
-        <!--</a>-->
-        <!--{% endfor %}-->
-        <!--</ul>-->
-        <!--{% else %}-->
-        <span class='associated-images notice'>None</span>
-        <!--{% endif %}-->
-
+        <ng-container *ngIf="selectedRegion&&similarRegions">
+            <ul>
+                <li>
+                    <h2>Selected image</h2>
+                    <a (click)="display.setViewCenter(selectedRegion.coordinates)">
+                        <img [src]="selectedRegion.base64">
+                    </a>
+                    <hr>
+                </li>
+                <h2>Similar images</h2>
+                <li *ngFor="let image of similarRegions">
+                    <a (click)="display.setViewCenter(image.coordinates)">
+                        <img [src]="image.base64">
+                    </a>
+                </li>
+            </ul>
+        </ng-container>
     </div>
     <app-image-display imageId='{{imageId}}' (select)='onSelect($event)'></app-image-display>
     <div id='properties'>
+        <ng-container *ngIf="similarityMap">
+            <h1>Similarity map</h1>
+            <img [src]="similarityMap.base64" alt="{{similarityMap.name}}">
+        </ng-container>
         <h1>Slide properties</h1>
-        <!--{% if properties %}-->
-        <!--<div id='properties-inner'>-->
-        <!--<dl>-->
-        <!--{% for name in properties %}-->
-        <!--<dt>{{ name }}-->
-        <!--<dd>{{ properties[name] }}-->
-        <!--{% endfor %}-->
-        <!--</dl>-->
-        <!--</div>-->
-        <!--{% else %}-->
-        <span class='notice'>None</span>
-        <!--{% endif %}-->
+        <div id='properties-inner'>
+            <dl *ngFor="let prop of objectEntries(properties)">
+                <dt>{{ prop[0] }}
+                <dd>{{ prop[1] }}
+            </dl>
+        </div>
     </div>
 </div>
 

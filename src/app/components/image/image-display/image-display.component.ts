@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as OpenSeadragon from 'openseadragon';
 import 'openseadragonselection';
 import { api_path } from '../../../global';
+import { ImageCoordinates } from '../interfaces/image-coordinates.interface';
+import { ImageDimensions } from '../interfaces/image-dimensions.interface';
 
 declare var initOpenSeaDragonImagingHelper: any;
 
@@ -13,6 +15,7 @@ declare var initOpenSeaDragonImagingHelper: any;
 export class ImageDisplayComponent implements OnInit {
     private viewer: any;
     private imagingHelper: any;
+    dimensions: ImageDimensions;
     @Output() select: EventEmitter<any> = new EventEmitter();
     @Input() imageId: string;
 
@@ -36,13 +39,7 @@ export class ImageDisplayComponent implements OnInit {
         initOpenSeaDragonImagingHelper(OpenSeadragon);
         this.imagingHelper = this.viewer.activateImagingHelper();
 
-        // this.viewer.addHandler('open', function () {
-        //   // To improve load times, ignore the lowest-resolution Deep Zoom
-        //   // levels.  This is a hack: we can't configure the minLevel via
-        //   // OpenSeadragon configuration options when the viewer is created
-        //   // from DZI XML.
-        //   this.viewer.source.minLevel = 8;
-        // });
+
         this.viewer.selection({
             element: null, // html element to use for overlay
             showSelectionControl: true, // show button to toggle selection mode
@@ -57,17 +54,26 @@ export class ImageDisplayComponent implements OnInit {
         });
 
         this.openSlide(this.imageId);
+        this.viewer.addHandler('open', () => {
+            this.viewer.source.minLevel = 8;
+            this.dimensions = this.viewer.world.getItemAt(0).getContentSize();
+        });
     }
 
     openSlide(imageId) {
-        const url = `${api_path}/image/${imageId}`;
+        const url = `${api_path}/images/${imageId}`;
         console.log(url);
         this.viewer.open(url);
     }
 
-    setViewCenter({ width, height, x, y }) {
-        // map to logical units with help of image width and height
-        this.imagingHelper.setView(width, height, new OpenSeadragon.Point(x, y));
+    setViewCenter({ width, height, x, y }: ImageCoordinates) {
+        const scaledWidth = width / this.dimensions.x,
+            scaledHeight = height / this.dimensions.y,
+            scaledX = (x + width / 2) / this.dimensions.x,
+            scaledY = (y + height / 2) / this.dimensions.y;
+
+        this.imagingHelper.setView(scaledWidth, scaledHeight,
+            new OpenSeadragon.Point(scaledX, scaledY));
     }
 
 }

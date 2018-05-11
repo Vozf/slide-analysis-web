@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { ImageListComponent } from './components/image/image-list/image-list.component';
-import { ImageItemComponent } from './components/image/image-item/image-item.component';
-
-const routes: Routes = [
-    { path: '', redirectTo: 'image-list', pathMatch: 'full' },
-    { path: 'images', component: ImageListComponent },
-    { path: 'image/:id', component: ImageItemComponent },
-];
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
+    imports: [
+        RouterModule.forRoot([
+            { path: '', redirectTo: 'images', pathMatch: 'full' },
+            {
+                path: 'images',
+                loadChildren: 'app/components/image/image.module#ImageModule',
+            },
+        ])
+    ],
     exports: [RouterModule]
 })
 export class AppRoutingModule {
