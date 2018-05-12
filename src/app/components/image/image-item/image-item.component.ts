@@ -4,10 +4,12 @@ import { HttpClient } from '@angular/common/http';
 import { ImageDisplayComponent } from '../image-display/image-display.component';
 import { ImagePreviewService } from '../image-preview.service';
 import * as _ from 'lodash';
-import { ImageService } from '../image.service';
+import { SimilarImageService } from '../similar-image.service';
 import { Image } from '../interfaces/image.interface';
 import { ImageRegion } from '../interfaces/image-region.interface';
 import { map } from 'rxjs/operators';
+import { ImageService } from '../image.service';
+import { NeuralNetworkEvaluateService } from '../neural-network-evaluate.service';
 
 @Component({
   selector: 'app-image-item',
@@ -25,7 +27,9 @@ export class ImageItemComponent implements OnInit, OnDestroy {
 
     constructor(private route: ActivatedRoute,
                 private http: HttpClient,
-                private imageService: ImageService
+                private imageService: ImageService,
+                private similarImageService: SimilarImageService,
+                private neuralNetworkEvaluateService: NeuralNetworkEvaluateService,
     ) {
   }
 
@@ -41,7 +45,7 @@ export class ImageItemComponent implements OnInit, OnDestroy {
   onSelect(event) {
     const body = _.pick(event, ['x', 'y', 'width', 'height']);
       console.log(body);
-      this.imageService.findSimilar(this.imageId, body)
+      this.similarImageService.findSimilar(this.imageId, body)
           .subscribe(({ similarityMap, similarRegions }) => {
               this.similarityMap = similarityMap;
               this.similarRegions = similarRegions;

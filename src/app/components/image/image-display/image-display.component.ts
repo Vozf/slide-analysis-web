@@ -61,7 +61,7 @@ export class ImageDisplayComponent implements OnInit {
     }
 
     openSlide(imageId) {
-        const url = `${api_path}/images/${imageId}`;
+        const url = `${api_path}/images/dzi/${imageId}`;
         console.log(url);
         this.viewer.open(url);
     }
