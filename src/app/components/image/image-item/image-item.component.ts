@@ -7,6 +7,7 @@ import * as _ from 'lodash';
 import { ImageService } from '../image.service';
 import { Image } from '../interfaces/image.interface';
 import { ImageRegion } from '../interfaces/image-region.interface';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-image-item',
@@ -19,8 +20,7 @@ export class ImageItemComponent implements OnInit, OnDestroy {
     public similarRegions: ImageRegion[] = [];
     public selectedRegion: ImageRegion;
     public similarityMap: Image;
-    properties = {};
-    objectEntries = Object.entries;
+    properties = [];
   @ViewChild(ImageDisplayComponent) display: ImageDisplayComponent;
 
     constructor(private route: ActivatedRoute,
@@ -33,7 +33,7 @@ export class ImageItemComponent implements OnInit, OnDestroy {
       this.route.params.subscribe(params => {
       this.imageId = params['id'];
     });
-      this.imageService.getSlideProperties(this.imageId)
+      this.imageService.getSlideProperties(this.imageId).pipe(map(Object.entries))
           .subscribe(properties => this.properties = properties);
 
   }
