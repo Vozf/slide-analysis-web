@@ -23,8 +23,37 @@ export class ImageItemComponent implements OnInit, OnDestroy {
   public imageId: string;
   public images: ImageListItem[] = [];
   public similarityMap: ImageListItem;
-  public isSimilarityMapPresnt: boolean;
+  public isSimilarityMapPresent: boolean;
   @ViewChild(ImageDisplayComponent) display: ImageDisplayComponent;
+
+  readonly availableDescriptors = [
+    {
+      name: 'Intensity histogram',
+      id: 'histogram'
+    },
+    {
+      name: 'Co-occurence matrix',
+      id: 'cooccurence'
+    }
+  ];
+
+  readonly availableSimilarities = [
+    {
+      name: 'Linear',
+      id: 'linear'
+    },
+    {
+      name: 'Euclidean',
+      id: 'euclidean'
+    },
+    {
+      name: 'Chi-squared',
+      id: 'chi2'
+    }
+  ];
+
+  private chosenDescriptor = this.availableDescriptors[0];
+  private chosenSimilarity = this.availableSimilarities[0];
 
   constructor(private route: ActivatedRoute, private http: HttpClient,
               private imageService: ImageService) {
@@ -41,7 +70,11 @@ export class ImageItemComponent implements OnInit, OnDestroy {
   }
 
   onSelect(event) {
-    const body = _.pick(event, ['x', 'y', 'width', 'height']);
+    const body = {
+      ..._.pick(event, ['x', 'y', 'width', 'height']),
+      chosenDescriptor: this.chosenDescriptor.id,
+      chosenSimilarity: this.chosenSimilarity.id
+    }
     this.http.post<ImageCoordinates[]>(`image/${this.imageId}/similar`, body)
       .subscribe(images => {
           this.images.length = 0;
@@ -59,7 +92,7 @@ export class ImageItemComponent implements OnInit, OnDestroy {
             .getImage('image/similar/map')
             .subscribe(data => {
               this.imageService.createImageFromBlob(this.similarityMap, data);
-              this.isSimilarityMapPresnt = true;
+              this.isSimilarityMapPresent = true;
             });
         images.forEach(cur => console.log(cur));
         // this.display.setViewCenter();

@@ -12,6 +12,7 @@ import { ImageItemComponent } from './components/image/image-item/image-item.com
 import { ImageListComponent } from './components/image/image-list/image-list.component';
 import { ImageDisplayComponent } from './components/image/image-display/image-display.component';
 import { MaterialModule } from './material.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { MaterialModule } from './material.module';
     AppRoutingModule,
     HttpClientModule,
     MaterialModule,
+    FormsModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

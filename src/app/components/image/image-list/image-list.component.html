@@ -1,6 +1,9 @@
-<h2>Image list</h2>
-<ul class="image-list">
-  <li *ngFor="let image of images">
-    <img [src]="image.imageToShow" (click)="goToImage(image.name)" alt="{{image.name}}">
-  </li>
-</ul>
+<div class="list-container">
+  <h2>Image list</h2>
+  <div class="image-list">
+    <div *ngFor="let image of images">
+      <div class="image-name">{{image.name}}</div>
+      <img [src]="image.imageToShow" (click)="goToImage(image.name)" alt="{{image.name}}">
+    </div>
+  </div>
+</div>
