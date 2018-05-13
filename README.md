@@ -1,27 +1,25 @@
-# SlideAnalysisWeb
+### This repository is web client of Slide analysis project. To run this project follow the instructions.
+## Instructions:
+1. Install os requirements
+    ```
+    sudo apt-get install git python3 nodejs npm python3-pip openslide-tools libsm6 libxext6 python3-tk
+    ```
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.3.
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+2. Clone projects
+    ```
+    git clone https://github.com/Vozf/slide_analysis_web.git
+    git clone https://github.com/Vozf/slide_analysis_api.git
+    ```
+3. Update `slide_analysis_api.slide_analysis_api.constants.py` and set `SLIDE_DIR` to path of your directory with images
+4. Run web client
+    ```
+    cd slide_analysis_web
+    npm i
+    npm start
+    ```
+5. Run api
+    ```
+    cd slide_analysis_api
+    pip3 install -r requirements.txt
+    python3 run.py
+    ```
