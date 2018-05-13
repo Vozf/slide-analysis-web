@@ -3,20 +3,33 @@ import * as OpenSeadragon from 'openseadragon';
 import 'openseadragonselection';
 import { api_path } from '../../../global';
 import { ImageCoordinates, ImageDimensions } from '../image.interface';
+import { Subject } from 'rxjs/Subject';
+import { distinctUntilChanged } from 'rxjs/operators';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 
-declare var initOpenSeaDragonImagingHelper: any;
+declare var initOpenSeaDragonImagingHelper: (x: any) => void;
+declare var initOpenSeadragonCanvasOverlay: (x: any) => void;
 
 @Component({
     selector: 'app-image-display',
     templateUrl: './image-display.component.html',
-    styleUrls: ['./image-display.component.scss']
+    styleUrls: ['./image-display.component.scss'],
 })
 export class ImageDisplayComponent implements OnInit {
     private viewer: any;
     private imagingHelper: any;
+    private overlay: any;
+
     dimensions: ImageDimensions;
     @Output() select: EventEmitter<ImageCoordinates> = new EventEmitter();
     @Input() imageId: string;
+
+    @Input()
+    set regions(regions) {
+        this.regions$.next(regions);
+    }
+
+    private regions$: Subject<any> = new ReplaySubject<any>();
 
     constructor() {
     }
@@ -24,7 +37,7 @@ export class ImageDisplayComponent implements OnInit {
     ngOnInit() {
         this.viewer = new OpenSeadragon({
             id: 'view',
-            prefixUrl: `/assets/openseadragon/`,
+            prefixUrl: `/assets/openseadragon/icons/`,
             showNavigator: true,
             timeout: 120000,
             animationTime: 0.5,
@@ -36,6 +49,8 @@ export class ImageDisplayComponent implements OnInit {
             zoomPerScroll: 2,
         });
         initOpenSeaDragonImagingHelper(OpenSeadragon);
+        initOpenSeadragonCanvasOverlay(OpenSeadragon);
+
         this.imagingHelper = this.viewer.activateImagingHelper();
 
 
@@ -57,6 +72,30 @@ export class ImageDisplayComponent implements OnInit {
             this.viewer.source.minLevel = 8;
             this.dimensions = this.viewer.world.getItemAt(0).getContentSize();
         });
+
+        this.overlay = this.viewer.canvasOverlay({
+            onRedraw: () => {
+            },
+        });
+
+        this.regions$.pipe(
+            distinctUntilChanged(),
+        ).subscribe(regions => {
+            if (!regions.length) {
+                return;
+            }
+            this.overlay.onRedraw = () => {
+                regions.forEach(({ coordinates }) => {
+                    const score = coordinates.score ? (1 - coordinates.score) * 120 + 120 : 120;
+                    this.overlay.context2d().fillStyle = `hsla(${score}, 50%, 50%, 0.75)`;
+                    this.overlay.context2d().fillRect(coordinates.x, coordinates.y, coordinates.height,
+                        coordinates.width);
+                });
+
+            };
+            this.overlay._updateCanvas();
+        });
+
     }
 
     openSlide(imageId) {
