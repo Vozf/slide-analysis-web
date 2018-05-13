@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ImagePreviewService } from '../image-preview.service';
-import { Image } from '../interfaces/image.interface';
+import { Image } from '../image.interface';
 
 @Component({
   selector: 'app-image-list',

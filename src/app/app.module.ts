@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { APIInterceptorService } from './apiinterceptor.service';
 import { MaterialModule } from './material.module';
+import { UtilsModule } from './components/utils/utils.module';
 
 @NgModule({
   declarations: [
@@ -19,14 +20,14 @@ import { MaterialModule } from './material.module';
     AppRoutingModule,
     HttpClientModule,
     MaterialModule,
+      UtilsModule,
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: APIInterceptorService,
     multi: true,
-  }
-  ],
-  bootstrap: [AppComponent]
+  }],
+    bootstrap: [AppComponent],
 })
 export class AppModule {
 }

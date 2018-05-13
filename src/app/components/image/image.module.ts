@@ -8,10 +8,22 @@ import { ImagePreviewService } from './image-preview.service';
 import { SimilarImageService } from './similar-image.service';
 import { NeuralNetworkEvaluateService } from './neural-network-evaluate.service';
 import { ImageService } from './image.service';
+import { FormsModule } from '@angular/forms';
+import { PropertiesResolver, SettingsOptionsResolver } from './image-item/image-item-resolver.service';
+import { ImageSettingsComponent } from './image-item/image-settings/image-settings.component';
+import { LoaderComponent } from '../utils/loader/loader.component';
+import { UtilsModule } from '../utils/utils.module';
 
 const routes: Routes = [
     { path: '', component: ImageListComponent },
-    { path: ':id', component: ImageItemComponent },
+    {
+        path: ':imageId',
+        component: ImageItemComponent,
+        resolve: {
+            settingsOptions: SettingsOptionsResolver,
+            properties: PropertiesResolver,
+        },
+    },
 ];
 
 @NgModule({
@@ -19,16 +31,21 @@ const routes: Routes = [
         ImageItemComponent,
         ImageListComponent,
         ImageDisplayComponent,
+        ImageSettingsComponent,
     ],
     imports: [
         RouterModule.forChild(routes),
         CommonModule,
+        FormsModule,
+        UtilsModule,
     ],
     providers: [
         ImageService,
         ImagePreviewService,
         SimilarImageService,
         NeuralNetworkEvaluateService,
+        SettingsOptionsResolver,
+        PropertiesResolver,
     ],
     exports: [RouterModule],
 })

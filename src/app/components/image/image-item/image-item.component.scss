@@ -19,10 +19,6 @@ body {
   margin: 5px;
 }
 
-h1 {
-  font-size: 1.2em;
-}
-
 .notice {
   font-style: italic;
 }
@@ -81,7 +77,7 @@ div#properties {
   //left: 75%;
   width: 24.5%;
   //height: 98%;
-  padding: 10px;
+  padding: 0 10px;
   overflow: auto;
 }
 

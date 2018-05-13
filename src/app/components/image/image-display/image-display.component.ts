@@ -2,8 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as OpenSeadragon from 'openseadragon';
 import 'openseadragonselection';
 import { api_path } from '../../../global';
-import { ImageCoordinates } from '../interfaces/image-coordinates.interface';
-import { ImageDimensions } from '../interfaces/image-dimensions.interface';
+import { ImageCoordinates, ImageDimensions } from '../image.interface';
 
 declare var initOpenSeaDragonImagingHelper: any;
 
@@ -16,7 +15,7 @@ export class ImageDisplayComponent implements OnInit {
     private viewer: any;
     private imagingHelper: any;
     dimensions: ImageDimensions;
-    @Output() select: EventEmitter<any> = new EventEmitter();
+    @Output() select: EventEmitter<ImageCoordinates> = new EventEmitter();
     @Input() imageId: string;
 
     constructor() {

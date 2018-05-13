@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 import { map, switchMap } from 'rxjs/operators';
 import { forkJoin } from 'rxjs/observable/forkJoin';
-import { Image } from './interfaces/image.interface';
+import { Image } from './image.interface';
 import { ImageService } from './image.service';
 
 @Injectable()

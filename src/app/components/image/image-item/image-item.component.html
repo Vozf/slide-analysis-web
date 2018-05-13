@@ -1,30 +1,35 @@
 <div class='container'>
     <div id='images'>
-        <ng-container *ngIf="selectedRegion&&similarRegions">
+        <ng-container *ngIf="selectedRegion">
             <ul>
                 <li>
-                    <h2>Selected image</h2>
+                    <h2>Selected image:</h2>
                     <a (click)="display.setViewCenter(selectedRegion.coordinates)">
                         <img [src]="selectedRegion.base64">
                     </a>
                     <hr>
                 </li>
-                <h2>Similar images</h2>
-                <li *ngFor="let image of similarRegions">
+                <h2>Images (Similar, Evaluated):</h2>
+
+                <app-loader *ngIf="selectedRegion&&!imageRegions.length"></app-loader>
+
+                <li *ngFor="let image of imageRegions">
                     <a (click)="display.setViewCenter(image.coordinates)">
                         <img [src]="image.base64">
                     </a>
+                    <p *ngIf="image.coordinates.score">Score: {{image.coordinates.score}}</p>
                 </li>
             </ul>
         </ng-container>
     </div>
     <app-image-display imageId='{{imageId}}' (select)='onSelect($event)'></app-image-display>
     <div id='properties'>
-        <ng-container *ngIf="similarityMap">
-            <h1>Similarity map</h1>
-            <img [src]="similarityMap.base64" alt="{{similarityMap.name}}">
+        <app-image-settings></app-image-settings>
+        <ng-container *ngIf="mapImage">
+            <h3>Similarity map</h3>
+            <img [src]="mapImage.base64" alt="{{mapImage.name}}">
         </ng-container>
-        <h1>Slide properties</h1>
+        <h3>Slide properties</h3>
         <div id='properties-inner'>
             <dl *ngFor="let prop of properties">
                 <dt>{{ prop[0] }}

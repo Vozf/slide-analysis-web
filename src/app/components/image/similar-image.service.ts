@@ -3,10 +3,9 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { concat, map, switchMap, toArray } from 'rxjs/operators';
 import { forkJoin } from 'rxjs/observable/forkJoin';
-import { ImageCoordinates } from './interfaces/image-coordinates.interface';
-import { ImageRegion } from './interfaces/image-region.interface';
-import { Image } from './interfaces/image.interface';
+import { Image, ImageCoordinates, ImageRegion } from './image.interface';
 import { ImageService } from './image.service';
+import { ImageSettingsState, SimilarImageSettingsOptions } from './image-item/image-settings/image-settings.interface';
 
 
 @Injectable()
@@ -15,16 +14,16 @@ export class SimilarImageService {
     constructor(private http: HttpClient, private imageService: ImageService) {
     }
 
-    findSimilar(imageId: string, coordinates: ImageCoordinates): Observable<{
+    findSimilar(imageId: string, coordinates: ImageCoordinates, settings: ImageSettingsState): Observable<{
         similarRegions: ImageRegion[];
-        similarityMap: Image;
+        mapImage: Image;
     }> {
-        return this.getTopSimilar(imageId, coordinates).pipe(
+        return this.getTopSimilar(imageId, coordinates, settings).pipe(
             concat(this.getSimilarityMap(imageId, coordinates)),
             toArray(),
-            map(([similarRegions, similarityMap]) => ({
+            map(([similarRegions, mapImage]) => ({
                     similarRegions: similarRegions as ImageRegion[],
-                    similarityMap: similarityMap as Image,
+                mapImage: mapImage as Image,
                 }),
             ));
     }
@@ -44,9 +43,26 @@ export class SimilarImageService {
         );
     }
 
-    private getTopSimilar(imageId: string, coordinates: ImageCoordinates): Observable<ImageRegion[]> {
-        return this.http.post<ImageCoordinates[]>(`images/similar/${imageId}`, coordinates).pipe(
-            switchMap(imagesCoordinates => forkJoin(...imagesCoordinates.map(imageCoordinates => this.imageService.readRegion(imageId, imageCoordinates))))
-        );
+    getSettings(): Observable<SimilarImageSettingsOptions> {
+        return this.http.get<SimilarImageSettingsOptions>(`images/similar/additional_parameters`);
+    }
+
+
+    private getTopSimilar(imageId: string,
+                          coordinates: ImageCoordinates,
+                          { similarity, descriptor }: ImageSettingsState): Observable<ImageRegion[]> {
+        return this.http
+            .post<ImageCoordinates[]>(`images/similar/${imageId}`, {
+                ...coordinates,
+                similarity: similarity.id,
+                descriptor: descriptor.id,
+            })
+            .pipe(
+                switchMap(imagesCoordinates =>
+                    forkJoin(...imagesCoordinates.map(imageCoordinates =>
+                        this.imageService.readRegion(imageId, imageCoordinates).pipe(
+                            map(image => ({ ...image, coordinates: imageCoordinates })),
+                        )))),
+            );
     }
 }

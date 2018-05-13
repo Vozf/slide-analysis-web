@@ -3,10 +3,9 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { concat, map, switchMap, toArray } from 'rxjs/operators';
 import { forkJoin } from 'rxjs/observable/forkJoin';
-import { ImageCoordinates } from './interfaces/image-coordinates.interface';
-import { ImageRegion } from './interfaces/image-region.interface';
-import { Image } from './interfaces/image.interface';
+import { Image, ImageCoordinates, ImageCoordinatesWithScore, ImageRegionWithScore } from './image.interface';
 import { ImageService } from './image.service';
+import { ImageSettingsState } from './image-item/image-settings/image-settings.interface';
 
 
 @Injectable()
@@ -15,16 +14,16 @@ export class NeuralNetworkEvaluateService {
     constructor(private http: HttpClient, private imageService: ImageService) {
     }
 
-    evaluate(imageId: string, coordinates: ImageCoordinates): Observable<{
-        similarRegions: ImageRegion[];
-        similarityMap: Image;
+    evaluate(imageId: string, coordinates: ImageCoordinates, settings: ImageSettingsState): Observable<{
+        evaluatedRegions: ImageRegionWithScore[];
+        mapImage: Image;
     }> {
-        return this.evaluateCoordinates(imageId, coordinates).pipe(
+        return this.evaluateCoordinates(imageId, coordinates, settings).pipe(
             concat(this.getMap(imageId, coordinates)),
             toArray(),
-            map(([similarRegions, similarityMap]) => ({
-                    similarRegions: similarRegions as ImageRegion[],
-                    similarityMap: similarityMap as Image,
+            map(([similarRegions, mapImage]) => ({
+                evaluatedRegions: similarRegions as ImageRegionWithScore[],
+                mapImage: mapImage as Image,
                 }),
             ));
     }
@@ -44,9 +43,16 @@ export class NeuralNetworkEvaluateService {
         );
     }
 
-    private evaluateCoordinates(imageId: string, coordinates: ImageCoordinates): Observable<ImageRegion[]> {
-        return this.http.post<ImageCoordinates[]>(`images/neural_network_evaluate/${imageId}`, coordinates).pipe(
-            switchMap(imagesCoordinates => forkJoin(...imagesCoordinates.map(imageCoordinates => this.imageService.readRegion(imageId, imageCoordinates))))
-        );
+    private evaluateCoordinates(imageId: string,
+                                coordinates: ImageCoordinates,
+                                settings: ImageSettingsState): Observable<ImageRegionWithScore[]> {
+        return this.http.post<ImageCoordinatesWithScore[]>(`images/neural_network_evaluate/${imageId}`, coordinates)
+            .pipe(
+                switchMap(imagesCoordinatesWithScore =>
+                    forkJoin(...imagesCoordinatesWithScore.map(imageCoordinatesWithScore =>
+                        this.imageService.readRegion(imageId, imageCoordinatesWithScore).pipe(
+                            map(image => ({ ...image, coordinates: imageCoordinatesWithScore })),
+                        )))),
+            );
     }
 }
