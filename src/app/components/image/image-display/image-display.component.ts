@@ -2,7 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as OpenSeadragon from 'openseadragon';
 import 'openseadragonselection';
 import { api_path } from '../../../global';
-import { ImageCoordinates, ImageCoordinatesWithScore, ImageDimensions } from '../image.interface';
+import { ImageCoordinates, ImageDimensions } from '../image.interface';
+import { Subject } from 'rxjs/Subject';
+import { distinctUntilChanged } from 'rxjs/operators';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 declare var initOpenSeaDragonImagingHelper: (x: any) => void;
 declare var initOpenSeadragonCanvasOverlay: (x: any) => void;
@@ -20,6 +23,13 @@ export class ImageDisplayComponent implements OnInit {
     dimensions: ImageDimensions;
     @Output() select: EventEmitter<ImageCoordinates> = new EventEmitter();
     @Input() imageId: string;
+
+    @Input()
+    set regions(regions) {
+        this.regions$.next(regions);
+    }
+
+    private regions$: Subject<any> = new ReplaySubject<any>();
 
     constructor() {
     }
@@ -63,12 +73,29 @@ export class ImageDisplayComponent implements OnInit {
             this.dimensions = this.viewer.world.getItemAt(0).getContentSize();
         });
 
-        var overlay = this.viewer.canvasOverlay({
-            onRedraw: function () {
-                overlay.context2d().fillStyle = 'rgba(255,0,0,0.5)';
-                overlay.context2d().fillRect(0, 0, 10000, 500);
+        this.overlay = this.viewer.canvasOverlay({
+            onRedraw: () => {
             },
         });
+
+        this.regions$.pipe(
+            distinctUntilChanged(),
+        ).subscribe(regions => {
+            if (!regions.length) {
+                return;
+            }
+            this.overlay.onRedraw = () => {
+                regions.forEach(({ coordinates }) => {
+                    const score = coordinates.score ? (1 - coordinates.score) * 120 + 120 : 120;
+                    this.overlay.context2d().fillStyle = `hsla(${score}, 50%, 50%, 0.75)`;
+                    this.overlay.context2d().fillRect(coordinates.x, coordinates.y, coordinates.height,
+                        coordinates.width);
+                });
+
+            };
+            this.overlay._updateCanvas();
+        });
+
     }
 
     openSlide(imageId) {

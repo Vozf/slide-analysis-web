@@ -22,7 +22,7 @@
             </ul>
         </ng-container>
     </div>
-    <app-image-display imageId='{{imageId}}' (select)='onSelect($event)'></app-image-display>
+    <app-image-display imageId='{{imageId}}' (select)='onSelect($event)' [regions]="imageRegions"></app-image-display>
     <div id='properties'>
         <app-image-settings></app-image-settings>
         <ng-container *ngIf="mapImage">
