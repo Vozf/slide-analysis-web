@@ -23,7 +23,7 @@
       ],
       "scripts": [
         "./assets/openseadragon/openseadragon-imaginghelper.min.js",
-        "./assets/openseadragon/openseadragon-svg-overlay.js"
+        "./assets/openseadragon/openseadragon-canvas-overlay.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

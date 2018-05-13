@@ -2,10 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as OpenSeadragon from 'openseadragon';
 import 'openseadragonselection';
 import { api_path } from '../../../global';
-import { ImageCoordinates, ImageDimensions } from '../image.interface';
+import { ImageCoordinates, ImageCoordinatesWithScore, ImageDimensions } from '../image.interface';
 
 declare var initOpenSeaDragonImagingHelper: (x: any) => void;
-declare var initOpenSeadragonSVGOverlay: (x: any) => void;
+declare var initOpenSeadragonCanvasOverlay: (x: any) => void;
 
 @Component({
     selector: 'app-image-display',
@@ -39,9 +39,8 @@ export class ImageDisplayComponent implements OnInit {
             zoomPerScroll: 2,
         });
         initOpenSeaDragonImagingHelper(OpenSeadragon);
-        initOpenSeadragonSVGOverlay(OpenSeadragon);
+        initOpenSeadragonCanvasOverlay(OpenSeadragon);
 
-        this.overlay = this.viewer.svgOverlay();
         this.imagingHelper = this.viewer.activateImagingHelper();
 
 
@@ -62,6 +61,13 @@ export class ImageDisplayComponent implements OnInit {
         this.viewer.addHandler('open', () => {
             this.viewer.source.minLevel = 8;
             this.dimensions = this.viewer.world.getItemAt(0).getContentSize();
+        });
+
+        var overlay = this.viewer.canvasOverlay({
+            onRedraw: function () {
+                overlay.context2d().fillStyle = 'rgba(255,0,0,0.5)';
+                overlay.context2d().fillRect(0, 0, 10000, 500);
+            },
         });
     }
 
