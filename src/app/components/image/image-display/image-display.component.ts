@@ -4,16 +4,19 @@ import 'openseadragonselection';
 import { api_path } from '../../../global';
 import { ImageCoordinates, ImageDimensions } from '../image.interface';
 
-declare var initOpenSeaDragonImagingHelper: any;
+declare var initOpenSeaDragonImagingHelper: (x: any) => void;
+declare var initOpenSeadragonSVGOverlay: (x: any) => void;
 
 @Component({
     selector: 'app-image-display',
     templateUrl: './image-display.component.html',
-    styleUrls: ['./image-display.component.scss']
+    styleUrls: ['./image-display.component.scss'],
 })
 export class ImageDisplayComponent implements OnInit {
     private viewer: any;
     private imagingHelper: any;
+    private overlay: any;
+
     dimensions: ImageDimensions;
     @Output() select: EventEmitter<ImageCoordinates> = new EventEmitter();
     @Input() imageId: string;
@@ -24,7 +27,7 @@ export class ImageDisplayComponent implements OnInit {
     ngOnInit() {
         this.viewer = new OpenSeadragon({
             id: 'view',
-            prefixUrl: `/assets/openseadragon/`,
+            prefixUrl: `/assets/openseadragon/icons/`,
             showNavigator: true,
             timeout: 120000,
             animationTime: 0.5,
@@ -36,6 +39,9 @@ export class ImageDisplayComponent implements OnInit {
             zoomPerScroll: 2,
         });
         initOpenSeaDragonImagingHelper(OpenSeadragon);
+        initOpenSeadragonSVGOverlay(OpenSeadragon);
+
+        this.overlay = this.viewer.svgOverlay();
         this.imagingHelper = this.viewer.activateImagingHelper();
 
 

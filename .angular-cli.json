@@ -22,7 +22,8 @@
         "styles.scss"
       ],
       "scripts": [
-        "./assets/openseadragon/openseadragon-imaginghelper.min.js"
+        "./assets/openseadragon/openseadragon-imaginghelper.min.js",
+        "./assets/openseadragon/openseadragon-svg-overlay.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
