@@ -9,23 +9,21 @@ import { ImageService } from '../image.service';
 import { NeuralNetworkEvaluateService } from '../neural-network-evaluate.service';
 import { ImageSettingsComponent } from './image-settings/image-settings.component';
 import { researchTypes } from './image-settings/image-settings.constants';
-import { Observable } from 'rxjs/Observable';
-import { switchMap, tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-image-item',
-  templateUrl: './image-item.component.html',
+    selector: 'app-image-item',
+    templateUrl: './image-item.component.html',
     styleUrls: ['./image-item.component.scss'],
     providers: [ImagePreviewService],
 })
 export class ImageItemComponent implements OnInit, OnDestroy {
-  public imageId: string;
+    public imageId: string;
     imageRegions: ImageRegion[] | ImageRegionWithScore[] = [];
     selectedRegion: ImageRegion;
     mapImage: Image;
     properties = [];
 
-  @ViewChild(ImageDisplayComponent) display: ImageDisplayComponent;
+    @ViewChild(ImageDisplayComponent) display: ImageDisplayComponent;
     @ViewChild(ImageSettingsComponent) settings: ImageSettingsComponent;
 
     constructor(
@@ -35,12 +33,12 @@ export class ImageItemComponent implements OnInit, OnDestroy {
         private similarImageService: SimilarImageService,
         private neuralNetworkEvaluateService: NeuralNetworkEvaluateService,
     ) {
-  }
+    }
 
-  ngOnInit() {
-      this.imageId = this.route.snapshot.params.imageId;
-      this.properties = this.route.snapshot.data.properties;
-  }
+    ngOnInit() {
+        this.imageId = this.route.snapshot.params.imageId;
+        this.properties = this.route.snapshot.data.properties;
+    }
 
     onSelect(event: ImageCoordinates) {
         const settings = this.settings.settingsState$.getValue();
@@ -82,7 +80,7 @@ export class ImageItemComponent implements OnInit, OnDestroy {
         this.imageRegions = [];
     }
 
-  ngOnDestroy() {
-  }
+    ngOnDestroy() {
+    }
 
 }

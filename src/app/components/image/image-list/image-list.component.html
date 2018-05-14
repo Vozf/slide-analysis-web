@@ -1,9 +1,11 @@
 <div class="list-container">
-    <h2>Image list</h2>
+    <div class="title">
+        <h2>Image list</h2>
+    </div>
     <div class="image-list">
-        <div *ngFor="let image of images">
+        <div class="image" *ngFor="let image of images">
             <div class="image-name">{{image.name}}</div>
-            <a href="/images/{{image.name}}">
+            <a href="/images/{{encode(image.name)}}">
                 <img [src]="image.base64" alt="{{image.name}}">
             </a>
         </div>

@@ -3,20 +3,21 @@ import { ImagePreviewService } from '../image-preview.service';
 import { Image } from '../image.interface';
 
 @Component({
-  selector: 'app-image-list',
-  templateUrl: './image-list.component.html',
+    selector: 'app-image-list',
+    templateUrl: './image-list.component.html',
     styleUrls: ['./image-list.component.scss'],
-    providers: [ImagePreviewService]
+    providers: [ImagePreviewService],
 })
 export class ImageListComponent implements OnInit {
     images: Image[] = [];
+    encode = encodeURIComponent;
 
     constructor(private imageService: ImagePreviewService) {
     }
 
-  ngOnInit() {
-      this.getImages();
-  }
+    ngOnInit() {
+        this.getImages();
+    }
 
     getImages(): void {
         this.imageService.getPreviews()
