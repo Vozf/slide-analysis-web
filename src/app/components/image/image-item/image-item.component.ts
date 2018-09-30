@@ -9,6 +9,8 @@ import { ImageService } from '../image.service';
 import { NeuralNetworkEvaluateService } from '../neural-network-evaluate.service';
 import { ImageSettingsComponent } from './image-settings/image-settings.component';
 import { researchTypes } from './image-settings/image-settings.constants';
+import {MatDialog, MatDialogRef} from '@angular/material';
+import {LoaderComponent} from '../../utils/loader/loader.component';
 
 @Component({
     selector: 'app-image-item',
@@ -32,6 +34,7 @@ export class ImageItemComponent implements OnInit, OnDestroy {
         private imageService: ImageService,
         private similarImageService: SimilarImageService,
         private neuralNetworkEvaluateService: NeuralNetworkEvaluateService,
+        private dialog: MatDialog,
     ) {
     }
 
@@ -50,6 +53,7 @@ export class ImageItemComponent implements OnInit, OnDestroy {
         };
         console.log(coordinates);
         this.clearImageRegions();
+        // const dialogRef: MatDialogRef<LoaderComponent> = this.dialog.open(LoaderComponent);
 
         switch (settings.type.id) {
             case researchTypes.NN:
@@ -57,6 +61,7 @@ export class ImageItemComponent implements OnInit, OnDestroy {
                     .subscribe(({ mapImage, evaluatedRegions }) => {
                         this.mapImage = mapImage;
                         this.imageRegions = evaluatedRegions;
+                        // dialogRef.close();
                         console.log(evaluatedRegions);
                     });
 
@@ -66,6 +71,7 @@ export class ImageItemComponent implements OnInit, OnDestroy {
                     .subscribe(({ mapImage, similarRegions }) => {
                         this.mapImage = mapImage;
                         this.imageRegions = similarRegions;
+                        // dialogRef.close();
                     });
                 break;
         }
@@ -73,7 +79,7 @@ export class ImageItemComponent implements OnInit, OnDestroy {
         this.imageService.readRegion(this.imageId, coordinates)
             .subscribe(image => this.selectedRegion = { ...image, coordinates });
 
-
+        this.display.toggleSelectionState();
     }
 
     clearImageRegions() {

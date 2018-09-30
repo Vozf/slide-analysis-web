@@ -12,7 +12,9 @@ import { FormsModule } from '@angular/forms';
 import { PropertiesResolver, SettingsOptionsResolver } from './image-item/image-item-resolver.service';
 import { ImageSettingsComponent } from './image-item/image-settings/image-settings.component';
 import { LoaderComponent } from '../utils/loader/loader.component';
+import { MatDialogModule } from '@angular/material';
 import { UtilsModule } from '../utils/utils.module';
+import { AnalysisResultComponent } from './analysis-result/analysis-result.component';
 
 const routes: Routes = [
     { path: '', component: ImageListComponent },
@@ -32,12 +34,14 @@ const routes: Routes = [
         ImageListComponent,
         ImageDisplayComponent,
         ImageSettingsComponent,
+        AnalysisResultComponent,
     ],
     imports: [
         RouterModule.forChild(routes),
         CommonModule,
         FormsModule,
         UtilsModule,
+        MatDialogModule,
     ],
     providers: [
         ImageService,

@@ -19,6 +19,7 @@ export class ImageDisplayComponent implements OnInit {
     private viewer: any;
     private imagingHelper: any;
     private overlay: any;
+    private selection: any;
 
     dimensions: ImageDimensions;
     @Output() select: EventEmitter<ImageCoordinates> = new EventEmitter();
@@ -54,7 +55,7 @@ export class ImageDisplayComponent implements OnInit {
         this.imagingHelper = this.viewer.activateImagingHelper();
 
 
-        this.viewer.selection({
+        this.selection = this.viewer.selection({
             element: null, // html element to use for overlay
             showSelectionControl: true, // show button to toggle selection mode
             toggleButton: null, // dom element to use as toggle button
@@ -96,6 +97,9 @@ export class ImageDisplayComponent implements OnInit {
             this.overlay._updateCanvas();
         });
 
+    }
+    toggleSelectionState() {
+        this.selection.toggleState();
     }
 
     openSlide(imageId) {

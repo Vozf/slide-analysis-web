@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { APIInterceptorService } from './apiinterceptor.service';
 import { MaterialModule } from './material.module';
 import { UtilsModule } from './components/utils/utils.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { UtilsModule } from './components/utils/utils.module';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     MaterialModule,
