@@ -1,8 +1,9 @@
-<div class='container'>
-    <div id='images' class='associated-images' *ngIf="selectedRegion">
-        <ng-container>
-            <ul>
-                <li>
+<mat-sidenav-container class='container'>
+    <mat-sidenav #imageSidenav mode='side'>
+        <div id='images'>
+            <!--<app-loader class='loader' *ngIf="selectedRegion&&!imageRegions.length"></app-loader>-->
+            <ul id='associated-images' *ngIf="!(selectedRegion&&!imageRegions.length)">
+                <li *ngIf="selectedRegion != null">
                     <h2>Selected image:</h2>
                     <a (click)="display.setViewCenter(selectedRegion.coordinates)">
                         <img [src]="selectedRegion.base64">
@@ -11,8 +12,6 @@
                 </li>
                 <h2>Images (Similar, Evaluated):</h2>
 
-                <app-loader *ngIf="selectedRegion&&!imageRegions.length"></app-loader>
-
                 <li *ngFor="let image of imageRegions">
                     <a (click)="display.setViewCenter(image.coordinates)">
                         <img [src]="image.base64">
@@ -20,24 +19,37 @@
                     <p *ngIf="image.coordinates.score">Score: {{image.coordinates.score}}</p>
                 </li>
             </ul>
-        </ng-container>
-    </div>
-    <app-image-display imageId='{{imageId}}' (select)='onSelect($event)' [regions]="imageRegions"></app-image-display>
-    <div id='properties'>
-        <app-image-settings></app-image-settings>
-        <ng-container *ngIf="mapImage">
-            <h3>Similarity map</h3>
-            <img [src]="mapImage.base64" alt="{{mapImage.name}}">
-        </ng-container>
-        <h3>Slide properties</h3>
-        <div id='properties-inner'>
-            <dl *ngFor="let prop of properties">
-                <dt>{{ prop[0] }}
-                <dd>{{ prop[1] }}
-            </dl>
         </div>
-    </div>
-</div>
+    </mat-sidenav>
+    <mat-sidenav #rightSidenav opened mode="side" position="end">
+        <div id='properties'>
+            <app-image-settings></app-image-settings>
+            <ng-container *ngIf="mapImage">
+                <h3>Similarity map</h3>
+                <img [src]="mapImage.base64" alt="{{mapImage.name}}">
+            </ng-container>
+            <h3>Slide properties</h3>
+            <div id='properties-inner'>
+                <dl *ngFor="let prop of properties">
+                    <dt>{{ prop[0] }}
+                    <dd>{{ prop[1] }}
+                </dl>
+            </div>
+        </div>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <!--<div class="center-container">-->
+            <app-loader *ngIf="isLoading"></app-loader>
+            <div class="center-container"  *ngIf="!isLoading">
+                <button class='left-sidebar-opener' (click)="imageSidenav.toggle()"></button>
+                <button class='right-sidebar-opener' (click)="rightSidenav.toggle()"></button>
+                <div class="image-container">
+                    <app-image-display imageId='{{imageId}}' (select)='onSelect($event)' [regions]="imageRegions"></app-image-display>
+                </div>
+            </div>
+        <!--</div>-->
+    </mat-sidenav-content>
+</mat-sidenav-container>
 
 
 

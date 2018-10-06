@@ -9,8 +9,8 @@ import { ImageService } from '../image.service';
 import { NeuralNetworkEvaluateService } from '../neural-network-evaluate.service';
 import { ImageSettingsComponent } from './image-settings/image-settings.component';
 import { researchTypes } from './image-settings/image-settings.constants';
-import {MatDialog, MatDialogRef} from '@angular/material';
 import {LoaderComponent} from '../../utils/loader/loader.component';
+import {MatSidenav} from '@angular/material';
 
 @Component({
     selector: 'app-image-item',
@@ -27,6 +27,9 @@ export class ImageItemComponent implements OnInit, OnDestroy {
 
     @ViewChild(ImageDisplayComponent) display: ImageDisplayComponent;
     @ViewChild(ImageSettingsComponent) settings: ImageSettingsComponent;
+    @ViewChild('imageSidenav') imageSidenav: MatSidenav;
+    @ViewChild('rightSidenav') rightSidenav: MatSidenav;
+    isLoading = false;
 
     constructor(
         private route: ActivatedRoute,
@@ -34,7 +37,6 @@ export class ImageItemComponent implements OnInit, OnDestroy {
         private imageService: ImageService,
         private similarImageService: SimilarImageService,
         private neuralNetworkEvaluateService: NeuralNetworkEvaluateService,
-        private dialog: MatDialog,
     ) {
     }
 
@@ -53,15 +55,14 @@ export class ImageItemComponent implements OnInit, OnDestroy {
         };
         console.log(coordinates);
         this.clearImageRegions();
-        // const dialogRef: MatDialogRef<LoaderComponent> = this.dialog.open(LoaderComponent);
-
+        this.startLoading();
         switch (settings.type.id) {
             case researchTypes.NN:
                 this.neuralNetworkEvaluateService.evaluate(this.imageId, coordinates, settings)
                     .subscribe(({ mapImage, evaluatedRegions }) => {
                         this.mapImage = mapImage;
                         this.imageRegions = evaluatedRegions;
-                        // dialogRef.close();
+                        this.finishLoading();
                         console.log(evaluatedRegions);
                     });
 
@@ -71,7 +72,7 @@ export class ImageItemComponent implements OnInit, OnDestroy {
                     .subscribe(({ mapImage, similarRegions }) => {
                         this.mapImage = mapImage;
                         this.imageRegions = similarRegions;
-                        // dialogRef.close();
+                        this.finishLoading();
                     });
                 break;
         }
@@ -84,6 +85,18 @@ export class ImageItemComponent implements OnInit, OnDestroy {
 
     clearImageRegions() {
         this.imageRegions = [];
+    }
+
+    startLoading() {
+        this.imageSidenav.close();
+        this.rightSidenav.close();
+        this.isLoading = true;
+    }
+
+    finishLoading() {
+        this.isLoading = false;
+        this.imageSidenav.open();
+        this.rightSidenav.open();
     }
 
     ngOnDestroy() {
