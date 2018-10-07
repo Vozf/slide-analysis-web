@@ -8,7 +8,7 @@ h2 {
 
 .list-container {
   margin: auto;
-  width: fit-content;
+  //width: 100%;
 }
 
 .image-list {
@@ -16,4 +16,9 @@ h2 {
 }
 
 .image {
+}
+
+img {
+  width: 100%;
+  height: auto;
 }

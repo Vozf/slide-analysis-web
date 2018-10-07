@@ -21,20 +21,21 @@
             </ul>
         </div>
     </mat-sidenav>
-    <mat-sidenav #rightSidenav opened mode="side" position="end">
+    <mat-sidenav #rightSidenav id="right-sidenav" opened mode="side" position="end">
         <div id='properties'>
             <app-image-settings></app-image-settings>
             <ng-container *ngIf="mapImage">
                 <h3>Similarity map</h3>
                 <img [src]="mapImage.base64" alt="{{mapImage.name}}">
             </ng-container>
-            <h3>Slide properties</h3>
-            <div id='properties-inner'>
-                <dl *ngFor="let prop of properties">
-                    <dt>{{ prop[0] }}
-                    <dd>{{ prop[1] }}
-                </dl>
-            </div>
+            <app-image-list></app-image-list>
+            <!--<h3>Slide properties</h3>-->
+            <!--<div id='properties-inner'>-->
+                <!--<dl *ngFor="let prop of properties">-->
+                    <!--<dt>{{ prop[0] }}-->
+                    <!--<dd>{{ prop[1] }}-->
+                <!--</dl>-->
+            <!--</div>-->
         </div>
     </mat-sidenav>
     <mat-sidenav-content>

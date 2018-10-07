@@ -81,7 +81,7 @@ div#images ul {
   margin: 0;
   -webkit-padding-start: 0;
   -webkit-padding-end: 0;
-  overflow-y: scroll;
+  //overflow-y: scroll;
 }
 
 .current-slide {
@@ -105,12 +105,15 @@ app-image-display {
 }
 
 mat-sidenav#right-sidenav {
-  width: 24.5%;
+  width: 350px;
+  padding: 0 10px;
 }
 
 div#properties {
+  display: block;
+  width: 100%;
   height: 98%;
-  padding: 0 10px;
+  //margin: 0 10px;
   overflow: auto;
 }
 
