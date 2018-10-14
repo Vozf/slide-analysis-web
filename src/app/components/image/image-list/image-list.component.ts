@@ -11,6 +11,7 @@ import { Image } from '../image.interface';
 export class ImageListComponent implements OnInit {
     images: Image[] = [];
     encode = encodeURIComponent;
+    filtro = '';
 
     constructor(private imageService: ImagePreviewService) {
     }
@@ -24,6 +25,19 @@ export class ImageListComponent implements OnInit {
             .subscribe(images => {
                 this.images = images;
             });
+    }
+
+    getShownImages() {
+        if (this.images.length === 0 || this.filtro === undefined || this.filtro === '') {
+            return this.images;
+        }
+
+        return this.images.filter((v) => {
+            if (v.name.toLowerCase().indexOf(this.filtro.toLowerCase()) >= 0) {
+                return true;
+            }
+            return false;
+        });
     }
 
 }
