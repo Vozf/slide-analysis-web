@@ -24,10 +24,6 @@
     <mat-sidenav #rightSidenav id="right-sidenav" opened mode="side" position="end">
         <div id='properties'>
             <app-image-settings></app-image-settings>
-            <ng-container *ngIf="mapImage">
-                <h3>Similarity map</h3>
-                <img [src]="mapImage.base64" alt="{{mapImage.name}}">
-            </ng-container>
             <app-image-list></app-image-list>
             <!--<h3>Slide properties</h3>-->
             <!--<div id='properties-inner'>-->
@@ -44,6 +40,7 @@
             <div class="center-container"  *ngIf="!isLoading">
                 <button class='left-sidebar-opener' (click)="imageSidenav.toggle()"></button>
                 <button class='right-sidebar-opener' (click)="rightSidenav.toggle()"></button>
+                <app-similarity-map class="similarity-map" [mapImage]="mapImage"></app-similarity-map>
                 <div class="image-container">
                     <app-image-display imageId='{{imageId}}' (select)='onSelect($event)' [regions]="imageRegions"></app-image-display>
                 </div>

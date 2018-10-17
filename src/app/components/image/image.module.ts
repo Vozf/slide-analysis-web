@@ -13,6 +13,7 @@ import { PropertiesResolver, SettingsOptionsResolver } from './image-item/image-
 import { ImageSettingsComponent } from './image-item/image-settings/image-settings.component';
 import { UtilsModule } from '../utils/utils.module';
 import { MaterialModule} from '../../material.module';
+import { SimilarityMapComponent } from './similarity-map/similarity-map.component';
 
 const routes: Routes = [
     { path: '', component: ImageListComponent },
@@ -32,6 +33,7 @@ const routes: Routes = [
         ImageListComponent,
         ImageDisplayComponent,
         ImageSettingsComponent,
+        SimilarityMapComponent,
     ],
     imports: [
         RouterModule.forChild(routes),

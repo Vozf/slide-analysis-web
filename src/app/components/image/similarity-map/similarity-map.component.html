@@ -1,0 +1,11 @@
+<!--<div>-->
+  <!--<img [src]="mapImage.base64" alt="{{mapImage.name}}">-->
+<!--</div *ngIf="mapImage">-->
+<div [style.top.px]='y'
+     [style.left.px]='x'
+     [style.width.px]='width'
+     [style.height.px]='height'
+     *ngIf="mapImage">
+  <div (mousedown)='onCornerClick($event, bottomLeftResize)' id='chat-bottom-left-resize' class='chat-corner-resize'></div>
+  <img [src]="mapImage.base64" alt="{{mapImage.name}}">
+</div>
