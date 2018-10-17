@@ -5,7 +5,8 @@
      [style.left.px]='x'
      [style.width.px]='width'
      [style.height.px]='height'
+     class='similarity-map-content'
      *ngIf="mapImage">
-  <div (mousedown)='onCornerClick($event, bottomLeftResize)' id='chat-bottom-left-resize' class='chat-corner-resize'></div>
+  <div (mousedown)='onCornerClick($event, bottomLeftResize)' class='map-corner-resize'></div>
   <img [src]="mapImage.base64" alt="{{mapImage.name}}">
 </div>

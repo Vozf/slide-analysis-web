@@ -7,8 +7,8 @@
   flex-grow: 1;
   width: 98%;
   height: 98%;
-  padding-right: 10px;
-  padding-left: 10px;
+  padding-right: 15px;
+  padding-left: 15px;
 }
 
 .center-container {
@@ -135,7 +135,8 @@ div#properties dd {
 
 .left-sidebar-opener {
   background: #5F5F5F 0 -100px no-repeat;
-  width: 10px;
+  border-width: 0px;
+  width: 15px;
   height: 100px;
   left: 0px;
   background-size: 100%;
@@ -146,7 +147,8 @@ div#properties dd {
 
 .right-sidebar-opener {
   background: #5F5F5F 0 -100px no-repeat;
-  width: 10px;
+  border-width: 0px;
+  width: 15px;
   height: 100px;
   right: 0px;
   background-size: 100%;
@@ -157,7 +159,6 @@ div#properties dd {
 
 .similarity-map {
   position: absolute;
-  right: 10px;
+  right: 15px;
   z-index: 100000;
-  border: 2px solid black;
 }
