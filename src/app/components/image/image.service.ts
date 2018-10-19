@@ -34,7 +34,7 @@ export class ImageService {
         return new Observable(sub => {
             const reader = new FileReader();
             reader.addEventListener('load', () => {
-                sub.next(reader.result);
+                sub.next(reader.result as string);
                 sub.complete();
             }, false);
             reader.readAsDataURL(image);
