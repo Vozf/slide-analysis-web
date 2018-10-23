@@ -78,7 +78,7 @@ export class ImageItemComponent implements OnInit, OnDestroy {
         }
 
         this.imageService.readRegion(this.imageId, coordinates)
-            .subscribe(image => this.selectedRegion = { ...image, coordinates });
+            .subscribe(image => this.selectedRegion = <ImageRegion>{...image, coordinates});
 
         this.display.toggleSelectionState();
     }

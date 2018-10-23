@@ -1,25 +1,57 @@
 .container {
   display:flex;
   height: 100%;
+  flex-direction: column;
 }
 
-.image-container {
-  flex-grow: 1;
-  width: 98%;
-  height: 98%;
-  padding-right: 15px;
-  padding-left: 15px;
-}
-
-.center-container {
-  display:flex;
-  height: 100%;
+.inner-container {
+  -webkit-box-flex: 1;
   flex-grow: 1;
   position: relative;
 }
 
-::-webkit-scrollbar {
-  display: none;
+mat-sidenav-container {
+  height: 98%;
+  width: 100%;
+  position: absolute;
+}
+
+.center-container {
+  height: 100%;
+}
+
+.image-container {
+  height: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+mat-sidenav-content {
+  border-right: 2px solid black;
+  border-left: 2px solid black;
+}
+
+app-image-display {
+  background-color: black;
+  flex-grow: 1;
+  color: white;
+}
+
+mat-sidenav#right-sidenav {
+  width: 350px;
+  //padding: 0 10px;
+}
+
+mat-sidenav#left-sidenav {
+  width: 260px;
+}
+
+app-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%)
 }
 
 mat-grid-tile {
@@ -38,11 +70,6 @@ body {
   font-style: italic;
 }
 
-//div#images {
-//  //position: absolute;
-//  width: 15%;
-//}
-
 img {
   max-width: 100%;
   height: auto;
@@ -58,12 +85,6 @@ div#images h2 {
   padding-left: 0;
 }
 
-.sidenav-left {
-  //margin: 0 1em;
-  //padding-left: 0;
-  width: 15%;
-}
-
 .loader {
   position: absolute;
   left: 50%;
@@ -77,7 +98,7 @@ div#images li {
 }
 
 div#images ul {
-  max-height: 98%;
+  //max-height: 98%;
   margin: 0;
   -webkit-padding-start: 0;
   -webkit-padding-end: 0;
@@ -88,31 +109,10 @@ div#images ul {
   background-color: #ccf;
 }
 
-mat-sidenav-content {
-  flex-grow: 1;
-  height: 100%;
-  border-right: 2px solid black;
-  border-left: 2px solid black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-app-image-display {
-  background-color: black;
-  //border: 1px solid #000;
-  color: white;
-}
-
-mat-sidenav#right-sidenav {
-  width: 350px;
-  padding: 0 10px;
-}
-
 div#properties {
   display: block;
   width: 100%;
-  height: 98%;
+  //height: 98%;
   //margin: 0 10px;
   overflow: auto;
 }
@@ -134,10 +134,10 @@ div#properties dd {
 }
 
 .left-sidebar-opener {
-  background: #5F5F5F 0 -100px no-repeat;
+  background: #5F5F5F url("assets/images/sidebar-opener.jpg") 0 -120px no-repeat;
   border-width: 0px;
-  width: 15px;
-  height: 100px;
+  width: 10px;
+  height: 120px;
   left: 0px;
   background-size: 100%;
   position: absolute;
@@ -146,10 +146,10 @@ div#properties dd {
 }
 
 .right-sidebar-opener {
-  background: #5F5F5F 0 -100px no-repeat;
+  background: #5F5F5F url("assets/images/sidebar-opener.jpg") no-repeat;
   border-width: 0px;
-  width: 15px;
-  height: 100px;
+  width: 10px;
+  height: 120px;
   right: 0px;
   background-size: 100%;
   position: absolute;

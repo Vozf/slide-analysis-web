@@ -1,5 +1,5 @@
 <mat-sidenav-container class='container'>
-    <mat-sidenav #imageSidenav mode='side'>
+    <mat-sidenav #imageSidenav id="left-sidenav" mode='side'>
         <div id='images'>
             <!--<app-loader class='loader' *ngIf="selectedRegion&&!imageRegions.length"></app-loader>-->
             <ul id='associated-images' *ngIf="!(selectedRegion&&!imageRegions.length)">
