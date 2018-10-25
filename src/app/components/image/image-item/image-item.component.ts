@@ -18,6 +18,7 @@ import {MatSidenav} from '@angular/material';
     styleUrls: ['./image-item.component.scss'],
     providers: [ImagePreviewService],
 })
+// TODO replace sidenav with plain divs with custon show/hide logic
 export class ImageItemComponent implements OnInit, OnDestroy {
     public imageId: string;
     imageRegions: ImageRegion[] | ImageRegionWithScore[] = [];
