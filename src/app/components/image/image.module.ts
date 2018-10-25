@@ -12,7 +12,8 @@ import { FormsModule } from '@angular/forms';
 import { PropertiesResolver, SettingsOptionsResolver } from './image-item/image-item-resolver.service';
 import { ImageSettingsComponent } from './image-item/image-settings/image-settings.component';
 import { UtilsModule } from '../utils/utils.module';
-import { MaterialModule} from '../../material.module';
+import { MaterialModule } from '../../material.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SimilarityMapComponent } from './similarity-map/similarity-map.component';
 
 const routes: Routes = [
@@ -41,6 +42,7 @@ const routes: Routes = [
         FormsModule,
         UtilsModule,
         MaterialModule,
+        NgbModule,
     ],
     providers: [
         ImageService,

@@ -1,4 +1,4 @@
-import {Component, HostListener, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
 import {Image} from '../image.interface';
 
 @Component({
@@ -6,9 +6,12 @@ import {Image} from '../image.interface';
     templateUrl: './similarity-map.component.html',
     styleUrls: ['./similarity-map.component.scss'],
 })
+// TODO consider using angular-resizable-element instead of current custon implementation of resize
 export class SimilarityMapComponent implements OnInit {
 
     @Input() mapImage: Image;
+
+    @Input() parent: HTMLElement;
 
     x: number;
     y: number;
@@ -18,18 +21,37 @@ export class SimilarityMapComponent implements OnInit {
     height: number;
     minWidth: number;
     minHeight: number;
+    maxWidth: number;
+    maxHeight: number;
     draggingCorner: boolean;
-    draggingWindow: boolean;
     resizer: Function;
 
     constructor() {
-        this.width = 200;
-        this.height = 200;
         this.minWidth = 50;
         this.minHeight = 50;
+        this.width = this.minWidth;
+        this.height = this.minHeight;
     }
 
     ngOnInit() {
+    }
+
+    updateContainerSize(img: HTMLImageElement) {
+        this.updateParentSize();
+        this.width = (img.naturalWidth > this.maxWidth) ? this.maxWidth
+            : (this.minWidth < img.naturalWidth) ? img.naturalWidth : this.minWidth;
+        this.height = (img.naturalHeight > this.maxHeight) ? this.maxHeight
+            : (this.minHeight < img.naturalHeight) ? img.naturalHeight : this.minHeight;
+    }
+
+    // TODO listen to parent resize. Probably using angular-resize-event
+    updateParentSize() {
+        const parentStyles = getComputedStyle(this.parent);
+        const parentHeight = this.parent.clientHeight;  // height with padding
+        const parentWidth = this.parent.clientWidth;   // width with padding
+
+        this.maxHeight = parentHeight - (parseFloat(parentStyles.paddingTop) + parseFloat(parentStyles.paddingBottom));
+        this.maxWidth = parentWidth - (parseFloat(parentStyles.paddingLeft) + parseFloat(parentStyles.paddingRight));
     }
 
     onCornerClick(event: MouseEvent, resizer?: Function) {
@@ -73,7 +95,6 @@ export class SimilarityMapComponent implements OnInit {
 
     @HostListener('document:mouseup', ['$event'])
     onCornerRelease(event: MouseEvent) {
-        this.draggingWindow = false;
         this.draggingCorner = false;
     }
 }

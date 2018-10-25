@@ -1,53 +1,67 @@
-<mat-sidenav-container class='container'>
-    <mat-sidenav #imageSidenav id="left-sidenav" mode='side'>
-        <div id='images'>
-            <!--<app-loader class='loader' *ngIf="selectedRegion&&!imageRegions.length"></app-loader>-->
-            <ul id='associated-images' *ngIf="!(selectedRegion&&!imageRegions.length)">
-                <li *ngIf="selectedRegion != null">
-                    <h2>Selected image:</h2>
-                    <a (click)="display.setViewCenter(selectedRegion.coordinates)">
-                        <img [src]="selectedRegion.base64">
-                    </a>
-                    <hr>
-                </li>
-                <h2>Images (Similar, Evaluated):</h2>
-
-                <li *ngFor="let image of imageRegions">
-                    <a (click)="display.setViewCenter(image.coordinates)">
-                        <img [src]="image.base64">
-                    </a>
-                    <p *ngIf="image.coordinates.score">Score: {{image.coordinates.score}}</p>
-                </li>
-            </ul>
-        </div>
-    </mat-sidenav>
-    <mat-sidenav #rightSidenav id="right-sidenav" opened mode="side" position="end">
-        <div id='properties'>
-            <app-image-settings></app-image-settings>
-            <app-image-list></app-image-list>
-            <!--<h3>Slide properties</h3>-->
-            <!--<div id='properties-inner'>-->
-                <!--<dl *ngFor="let prop of properties">-->
-                    <!--<dt>{{ prop[0] }}-->
-                    <!--<dd>{{ prop[1] }}-->
-                <!--</dl>-->
-            <!--</div>-->
-        </div>
-    </mat-sidenav>
-    <mat-sidenav-content>
-        <!--<div class="center-container">-->
-            <app-loader *ngIf="isLoading"></app-loader>
-            <div class="center-container"  *ngIf="!isLoading">
-                <button class='left-sidebar-opener' (click)="imageSidenav.toggle()"></button>
-                <button class='right-sidebar-opener' (click)="rightSidenav.toggle()"></button>
-                <app-similarity-map class="similarity-map" [mapImage]="mapImage"></app-similarity-map>
-                <div class="image-container">
-                    <app-image-display imageId='{{imageId}}' (select)='onSelect($event)' [regions]="imageRegions"></app-image-display>
-                </div>
+<div class='item-container'>
+    <mat-toolbar class="app-toolbar" color="primary">
+        <span>Whole Slide Image Analysis</span>
+        <span class="fill-remaining-space"></span>
+        <!--<button mat-raised-button id="settingsDropdown" [matMenuTriggerFor]="menu" color="primary">Settings</button>-->
+        <!--<mat-menu #menu="matMenu">-->
+            <!--<app-image-settings></app-image-settings>-->
+        <!--</mat-menu>-->
+        <div ngbDropdown placement="bottom-right" autoClose="outside">
+            <button mat-raised-button id="settingsDropdown" ngbDropdownToggle color="primary">Settings</button>
+            <div ngbDropdownMenu aria-labelledby="settingsDropdown">
+                <app-image-settings></app-image-settings>
             </div>
-        <!--</div>-->
-    </mat-sidenav-content>
-</mat-sidenav-container>
+        </div>
+    </mat-toolbar>
+    <div class='inner-container'>
+        <mat-sidenav-container>
+            <mat-sidenav #imageSidenav id="left-sidenav" mode='side'>
+                <div id='images'>
+                    <!--<app-loader class='loader' *ngIf="selectedRegion&&!imageRegions.length"></app-loader>-->
+                    <ul id='associated-images' *ngIf="!(selectedRegion&&!imageRegions.length)">
+                        <li *ngIf="selectedRegion != null">
+                            <h2>Selected image:</h2>
+                            <a (click)="display.setViewCenter(selectedRegion.coordinates)">
+                                <img [src]="selectedRegion.base64">
+                            </a>
+                            <hr>
+                        </li>
+                        <h2>Images (Similar, Evaluated):</h2>
 
+                        <li *ngFor="let image of imageRegions">
+                            <a (click)="display.setViewCenter(image.coordinates)">
+                                <img [src]="image.base64">
+                            </a>
+                            <p *ngIf="image.coordinates.score">Score: {{image.coordinates.score}}</p>
+                        </li>
+                    </ul>
+                </div>
+            </mat-sidenav>
+            <mat-sidenav #rightSidenav id="right-sidenav" opened mode="side" position="end">
+                <div id='properties'>
+                    <app-image-list></app-image-list>
+                    <!--<h3>Slide properties</h3>-->
+                    <!--<div id='properties-inner'>-->
+                        <!--<dl *ngFor="let prop of properties">-->
+                            <!--<dt>{{ prop[0] }}-->
+                            <!--<dd>{{ prop[1] }}-->
+                        <!--</dl>-->
+                    <!--</div>-->
+                </div>
+            </mat-sidenav>
+            <mat-sidenav-content>
+                <app-loader *ngIf="isLoading"></app-loader>
+                <div class="center-container" *ngIf="!isLoading">
+                    <button class='left-sidebar-opener' (click)="imageSidenav.toggle()"></button>
+                    <button class='right-sidebar-opener' (click)="rightSidenav.toggle()"></button>
+                    <app-similarity-map class="similarity-map" [mapImage]="mapImage" [parent]="image"></app-similarity-map>
+                    <div class="image-container" #image>
+                        <app-image-display imageId='{{imageId}}' (select)='onSelect($event)' [regions]="imageRegions"></app-image-display>
+                    </div>
+                </div>
+            </mat-sidenav-content>
+        </mat-sidenav-container>
+    </div>
+</div>
 
 

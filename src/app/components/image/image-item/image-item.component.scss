@@ -1,4 +1,4 @@
-.container {
+.item-container {
   display:flex;
   height: 100%;
   flex-direction: column;
@@ -11,7 +11,7 @@
 }
 
 mat-sidenav-container {
-  height: 98%;
+  height: 100%;
   width: 100%;
   position: absolute;
 }
@@ -161,4 +161,11 @@ div#properties dd {
   position: absolute;
   right: 15px;
   z-index: 100000;
+}
+
+.app-toolbar {
+}
+
+.fill-remaining-space {
+  flex: 1 1 auto;
 }

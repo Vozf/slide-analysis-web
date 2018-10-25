@@ -96,7 +96,6 @@ export class ImageItemComponent implements OnInit, OnDestroy {
     finishLoading() {
         this.isLoading = false;
         this.imageSidenav.open();
-        this.rightSidenav.open();
     }
 
     ngOnDestroy() {
