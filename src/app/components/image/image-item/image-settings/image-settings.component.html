@@ -13,7 +13,7 @@
 
         <div *ngIf="settingsState.type.id == researchTypes.SIMILAR">
             <div class="row">
-                <label class="col-5">Chosen descriptor: </label>
+                <label class="col-5">Image Descriptor: </label>
                 <select class="col-7" [ngModel]="settingsState.descriptor" (ngModelChange)="filtersChange({descriptor: $event})">
                     <option *ngFor="let descriptor of settingsOptions.similarImageSettingsOptions.descriptors"
                             [ngValue]="descriptor">{{descriptor.name}}
@@ -21,7 +21,7 @@
                 </select>
             </div>
             <div class="row">
-                <label class="col-5">Chosen metric: </label>
+                <label class="col-5">Metric: </label>
                 <select class="col-7" [ngModel]="settingsState.similarity" (ngModelChange)="filtersChange({similarity: $event})">
                     <option *ngFor="let similarity of settingsOptions.similarImageSettingsOptions.similarities"
                             [ngValue]="similarity">{{similarity.name}}
