@@ -25,5 +25,5 @@
     ```
 
 ## Screenshots
-![](https://psv4.userapi.com/c848324/u98389977/docs/d6/de6821eeedf2/Screenshot_from_2018-06-05_16-53-40.png?extra=_S6rG8-JFaAzT8uRdCOololcSjt0DBuaZLbcGh-uZs5fOejkD593uf-vsIL6VRhQiXwtA183yoibheqvDxiGpsTtiF488sX2Aoz0Ku9-VaqiXgv8G3qeP7XWp3vS6Nf2Qvvjegd_Ow)
-![](https://psv4.userapi.com/c848324/u98389977/docs/d10/704970796529/Screenshot_from_2018-06-05_17-00-20.png?extra=06Z4SAJUUFeuSXl3Zey0PvlEC186NqtcjjJIPMwdlt4zrFrbFWFRXM1P7ItwUZ6wepAobKDkXiYx3hcl0XLeWBKtO4bbQVRTyr9HqRFljQHgT5HBE7rzX36-xASQpFUXGl_AHD-GEg)
+![](https://pp.userapi.com/c845324/v845324976/124923/Hwg73qezjGg.jpg)
+![](https://pp.userapi.com/c845324/v845324976/12492d/VMQ2b4w-W3c.jpg)
