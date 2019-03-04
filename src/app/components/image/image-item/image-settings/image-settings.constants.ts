@@ -7,11 +7,11 @@ export const researchTypes = {
 
 export const researchTypeOptions: SettingOption[] = [
     {
-        name: 'Similar Images',
+        name: 'Searching Similar Images',
         id: researchTypes.SIMILAR,
     },
     {
-        name: 'Neural Networks Evaluate',
+        name: 'Cancer Detection (Neural Networks)',
         id: researchTypes.NN,
     },
 ];
