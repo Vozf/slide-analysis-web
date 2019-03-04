@@ -87,7 +87,7 @@ export class ImageDisplayComponent implements OnInit {
             }
             this.overlay.onRedraw = () => {
                 regions.forEach(({ coordinates }) => {
-                    const score = coordinates.score ? (1 - coordinates.score) * 120 + 120 : 120;
+                    const score = coordinates.score ? coordinates.score * 120 + 120 : 120;
                     this.overlay.context2d().fillStyle = `hsla(${score}, 50%, 50%, 0.75)`;
                     this.overlay.context2d().fillRect(coordinates.x, coordinates.y, coordinates.height,
                         coordinates.width);
