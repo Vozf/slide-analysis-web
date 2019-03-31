@@ -6,7 +6,7 @@
         <input class="image-filter" [(ngModel)]="filtro" placeholder="start typing image name">
         <div class="image" *ngFor="let image of getShownImages()">
             <div class="image-name">{{image.name}}</div>
-            <a href="./{{encode(image.name)}}">
+            <a routerLink="./{{encode(image.name)}}">
                 <img [src]="image.base64" alt="{{image.name}}">
             </a>
         </div>
