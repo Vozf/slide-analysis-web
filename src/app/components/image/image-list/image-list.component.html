@@ -5,7 +5,7 @@
     <div class="image-list">
         <div class="image" *ngFor="let image of images">
             <div class="image-name">{{image.name}}</div>
-            <a href="/images/{{encode(image.name)}}">
+            <a href="{{encode(image.name)}}">
                 <img [src]="image.base64" alt="{{image.name}}">
             </a>
         </div>
