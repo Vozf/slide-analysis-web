@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, switchMap } from 'rxjs/operators';
-import { Image, ImageCoordinates } from './image.interface';
+import { ImageCoordinates, Region } from './image.interface';
 
 
 @Injectable()
@@ -11,7 +11,7 @@ export class ImageService {
     constructor(private http: HttpClient) {
     }
 
-    readRegion(imageId: string, coordinates: ImageCoordinates): Observable<Image> {
+    readRegion(imageId: string, coordinates: ImageCoordinates): Observable<Region> {
         const { x, y, width, height } = coordinates;
         const queryParams = new HttpParams()
             .append('x', x.toString())

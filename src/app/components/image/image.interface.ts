@@ -1,6 +1,22 @@
-export interface Image {
-    name?: string;
+export interface FileApiResponse {
+    is_folder: boolean;
+    name: string;
+}
+
+export interface FolderApiResponse extends FileApiResponse {
+    children: (FileApiResponse | FolderApiResponse)[];
+}
+
+export interface Region {
     base64: string;
+}
+
+export interface Image extends FileApiResponse, Region {
+}
+
+export interface ImageFolder extends FileApiResponse {
+    name: string;
+    children: (ImageFolder | Image)[];
 }
 
 export interface ImageCoordinates {
