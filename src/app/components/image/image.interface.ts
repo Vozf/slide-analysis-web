@@ -43,3 +43,7 @@ export interface ImageRegion extends Image {
 export interface ImageRegionWithScore extends Image {
     coordinates: ImageCoordinatesWithScore;
 }
+
+export class Filter {
+    search = '';
+}

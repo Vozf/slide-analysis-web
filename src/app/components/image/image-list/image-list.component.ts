@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ImagePreviewService } from '../image-preview.service';
-import { Image } from '../image.interface';
+import { Filter } from '../image.interface';
+import { BehaviorSubject } from 'rxjs';
+import { switchMap } from 'rxjs/internal/operators/switchMap';
+import { pluck } from 'rxjs/operators';
+import { tap } from 'rxjs/internal/operators/tap';
 
 @Component({
     selector: 'app-image-list',
@@ -8,36 +12,22 @@ import { Image } from '../image.interface';
     styleUrls: ['./image-list.component.scss'],
     providers: [ImagePreviewService],
 })
-export class ImageListComponent implements OnInit {
-    images: Image[] = [];
+
+
+export class ImageListComponent {
+    filter$ = new BehaviorSubject(new Filter());
+    images$ = this.filter$.pipe(
+        pluck('search'),
+        switchMap(this.imageService.getPreviews.bind(this.imageService)),
+        tap(console.log.bind(console)),
+    );
     encode = encodeURIComponent;
-    filtro = '';
 
     constructor(private imageService: ImagePreviewService) {
     }
 
-    ngOnInit() {
-        this.getImages();
-    }
-
-    getImages(): void {
-        this.imageService.getPreviews()
-            .subscribe(images => {
-                this.images = images;
-            });
-    }
-
-    getShownImages() {
-        if (this.images.length === 0 || this.filtro === undefined || this.filtro === '') {
-            return this.images;
-        }
-
-        return this.images.filter((v) => {
-            if (v.name.toLowerCase().indexOf(this.filtro.toLowerCase()) >= 0) {
-                return true;
-            }
-            return false;
-        });
+    updateSearch(search) {
+        this.filter$.next({ ...this.filter$.getValue(), search });
     }
 
 }

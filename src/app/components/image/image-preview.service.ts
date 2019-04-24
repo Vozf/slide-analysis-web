@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { HttpClient } from '@angular/common/http';
-import { map, partition, switchMap, toArray } from 'rxjs/operators';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { map, partition, toArray, mergeMap } from 'rxjs/operators';
 import { Image, FileApiResponse, FolderApiResponse, ImageFolder } from './image.interface';
 import { ImageService } from './image.service';
 import { from } from 'rxjs/internal/observable/from';
 import { forkJoin } from 'rxjs';
 import { tap } from 'rxjs/internal/operators/tap';
-import { mergeMap } from 'rxjs/internal/operators/mergeMap';
 
 
 @Injectable()
@@ -16,9 +15,10 @@ export class ImagePreviewService {
     constructor(private http: HttpClient, private imageService: ImageService) {
     }
 
-    getPreviews(): Observable<(ImageFolder | Image)[]> {
-        const items = this.http.get<(FileApiResponse | FolderApiResponse)[]>('images/previews').pipe(
-            switchMap(its => from(its)),
+    getPreviews(search = ''): Observable<(ImageFolder | Image)[]> {
+        const items = this.http.get<(FileApiResponse | FolderApiResponse)[]>('images/previews',
+            { params: new HttpParams().append('search', search) }).pipe(
+            mergeMap(its => from(its)),
         );
 
         return this.getPreviewsRecursive(items).pipe(tap(it => console.log(it, -1)));
