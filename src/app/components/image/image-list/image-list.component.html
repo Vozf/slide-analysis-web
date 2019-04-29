@@ -5,7 +5,7 @@
 
     <div class="image-list">
         <input class="image-filter" (input)="updateSearch($event.target.value)" placeholder="start typing image name">
-        <app-image-list-tree [images]="images$ | async"></app-image-list-tree>
+        <app-image-list-tree [images]="images$ | async" (recalculate)="recalculate($event)"></app-image-list-tree>
 
     </div>
 </div>

@@ -26,6 +26,10 @@
                     </mat-icon>
                 </button>
                 {{node.name}}
+                <button class="mat-icon-rtl-cached" mat-icon-button (click)="recalculate.emit(node)">
+                    <mat-icon *ngIf="node.recalculatable">cached
+                    </mat-icon>
+                </button>
             </div>
             <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
                 <ng-container matTreeNodeOutlet></ng-container>

@@ -17,6 +17,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SimilarityMapComponent } from './similarity-map/similarity-map.component';
 import { MatIconModule, MatTreeModule } from '@angular/material';
 import { ImageListTreeComponent } from './image-list/image-list-tree/image-list-tree.component';
+import { ImageListService } from './image-list/image-list.service';
 
 const routes: Routes = [
     { path: '', component: ImageListComponent },
@@ -56,6 +57,7 @@ const routes: Routes = [
         NeuralNetworkEvaluateService,
         SettingsOptionsResolver,
         PropertiesResolver,
+        ImageListService,
     ],
     exports: [RouterModule],
 })

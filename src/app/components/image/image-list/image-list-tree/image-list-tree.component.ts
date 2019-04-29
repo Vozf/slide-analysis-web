@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ImageFolder } from '../../image.interface';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material';
@@ -15,6 +15,7 @@ export class ImageListTreeComponent {
     set images(images: ImageFolder[]) {
         this.dataSource.data = images;
     }
+    @Output() recalculate: EventEmitter<ImageFolder> = new EventEmitter();
 
     encode = encodeURIComponent;
     treeControl = new NestedTreeControl<ImageFolder>(node => (node as any).children);
@@ -22,4 +23,5 @@ export class ImageListTreeComponent {
     hasChild = (_: number, node: ImageFolder) => {
         return node.children && node.children.length > 0;
     }
+
 }

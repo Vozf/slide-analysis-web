@@ -5,6 +5,7 @@ export interface FileApiResponse {
 
 export interface FolderApiResponse extends FileApiResponse {
     children: (FileApiResponse | FolderApiResponse)[];
+    recalculatable: boolean;
 }
 
 export interface Region {
