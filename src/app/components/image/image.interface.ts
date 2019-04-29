@@ -15,7 +15,6 @@ export interface Image extends FileApiResponse, Region {
 }
 
 export interface ImageFolder extends FileApiResponse {
-    name: string;
     children: (ImageFolder | Image)[];
 }
 

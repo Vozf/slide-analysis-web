@@ -2,13 +2,11 @@
     <div class="title">
         <h2>Image list</h2>
     </div>
+
     <div class="image-list">
         <input class="image-filter" (input)="updateSearch($event.target.value)" placeholder="start typing image name">
-        <div class="image" *ngFor="let image of images$ | async">
-            <div class="image-name">{{image.name}}</div>
-            <a routerLink="./{{encode(image.name)}}">
-                <img [src]="image.base64" alt="{{image.name}}">
-            </a>
-        </div>
+        <app-image-list-tree [images]="images$ | async"></app-image-list-tree>
+
     </div>
 </div>
+

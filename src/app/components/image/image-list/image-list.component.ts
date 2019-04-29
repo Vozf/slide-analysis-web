@@ -4,7 +4,6 @@ import { Filter } from '../image.interface';
 import { BehaviorSubject } from 'rxjs';
 import { switchMap } from 'rxjs/internal/operators/switchMap';
 import { pluck } from 'rxjs/operators';
-import { tap } from 'rxjs/internal/operators/tap';
 
 @Component({
     selector: 'app-image-list',
@@ -19,9 +18,7 @@ export class ImageListComponent {
     images$ = this.filter$.pipe(
         pluck('search'),
         switchMap(this.imageService.getPreviews.bind(this.imageService)),
-        tap(console.log.bind(console)),
     );
-    encode = encodeURIComponent;
 
     constructor(private imageService: ImagePreviewService) {
     }

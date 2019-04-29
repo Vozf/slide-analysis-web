@@ -15,6 +15,8 @@ import { UtilsModule } from '../utils/utils.module';
 import { MaterialModule } from '../../material.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SimilarityMapComponent } from './similarity-map/similarity-map.component';
+import { MatIconModule, MatTreeModule } from '@angular/material';
+import { ImageListTreeComponent } from './image-list/image-list-tree/image-list-tree.component';
 
 const routes: Routes = [
     { path: '', component: ImageListComponent },
@@ -32,6 +34,7 @@ const routes: Routes = [
     declarations: [
         ImageItemComponent,
         ImageListComponent,
+        ImageListTreeComponent,
         ImageDisplayComponent,
         ImageSettingsComponent,
         SimilarityMapComponent,
@@ -43,6 +46,8 @@ const routes: Routes = [
         UtilsModule,
         MaterialModule,
         NgbModule,
+        MatTreeModule,
+        MatIconModule,
     ],
     providers: [
         ImageService,
