@@ -9,8 +9,9 @@ import { ImageService } from '../image.service';
 import { NeuralNetworkEvaluateService } from '../neural-network-evaluate.service';
 import { ImageSettingsComponent } from './image-settings/image-settings.component';
 import { researchTypes } from './image-settings/image-settings.constants';
-import {LoaderComponent} from '../../utils/loader/loader.component';
 import {MatSidenav} from '@angular/material';
+import { BehaviorSubject } from 'rxjs';
+import { pluck } from 'rxjs/operators';
 
 @Component({
     selector: 'app-image-item',
@@ -20,11 +21,11 @@ import {MatSidenav} from '@angular/material';
 })
 // TODO replace sidenav with plain divs with custon show/hide logic
 export class ImageItemComponent implements OnInit, OnDestroy {
-    public imageId: string;
+    public imageId$: BehaviorSubject<string>;
     imageRegions: ImageRegion[] | ImageRegionWithScore[] = [];
     selectedRegion: ImageRegion;
     mapImage: Image;
-    properties = [];
+    properties$: BehaviorSubject<[]>;
 
     @ViewChild(ImageDisplayComponent) display: ImageDisplayComponent;
     @ViewChild(ImageSettingsComponent) settings: ImageSettingsComponent;
@@ -42,8 +43,10 @@ export class ImageItemComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.imageId = this.route.snapshot.params.imageId;
-        this.properties = this.route.snapshot.data.properties;
+        this.imageId$ = new BehaviorSubject(this.route.snapshot.params.imageId);
+        this.properties$ = new BehaviorSubject(this.route.snapshot.data.properties);
+        this.route.params.pipe(pluck('imageId')).subscribe(this.imageId$);
+        this.route.data.pipe(pluck('properties')).subscribe(this.properties$);
     }
 
     onSelect(event: ImageCoordinates) {
@@ -59,7 +62,7 @@ export class ImageItemComponent implements OnInit, OnDestroy {
         this.startLoading();
         switch (settings.type.id) {
             case researchTypes.NN:
-                this.neuralNetworkEvaluateService.evaluate(this.imageId, coordinates, settings)
+                this.neuralNetworkEvaluateService.evaluate(this.imageId$.getValue(), coordinates, settings)
                     .subscribe(({ mapImage, evaluatedRegions }) => {
                         this.mapImage = mapImage;
                         this.imageRegions = evaluatedRegions;
@@ -69,7 +72,7 @@ export class ImageItemComponent implements OnInit, OnDestroy {
 
                 break;
             case researchTypes.SIMILAR:
-                this.similarImageService.findSimilar(this.imageId, coordinates, settings)
+                this.similarImageService.findSimilar(this.imageId$.getValue(), coordinates, settings)
                     .subscribe(({ mapImage, similarRegions }) => {
                         this.mapImage = mapImage;
                         this.imageRegions = similarRegions;
@@ -78,7 +81,7 @@ export class ImageItemComponent implements OnInit, OnDestroy {
                 break;
         }
 
-        this.imageService.readRegion(this.imageId, coordinates)
+        this.imageService.readRegion(this.imageId$.getValue(), coordinates)
             .subscribe(image => this.selectedRegion = <ImageRegion>{...image, coordinates});
 
         this.display.toggleSelectionState();

@@ -56,7 +56,7 @@
                     <button class='right-sidebar-opener' (click)="rightSidenav.toggle()"></button>
                     <app-similarity-map class="similarity-map" [mapImage]="mapImage" [parent]="image"></app-similarity-map>
                     <div class="image-container" #image>
-                        <app-image-display imageId='{{imageId}}' (select)='onSelect($event)' [regions]="imageRegions"></app-image-display>
+                        <app-image-display [imageId]="imageId$ | async" (select)='onSelect($event)' [regions]="imageRegions"></app-image-display>
                     </div>
                 </div>
             </mat-sidenav-content>

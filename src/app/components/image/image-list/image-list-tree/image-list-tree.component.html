@@ -7,7 +7,7 @@
             <button mat-icon-button disabled></button>
             <div class="image-container">
                 <div class="image-name">{{node.name}}</div>
-                <a routerLink="./{{encode(node.name)}}">
+                <a routerLink="/images/{{encode(node.name)}}">
                     <img [src]="node.base64" alt="{{node.name}}">
                 </a>
             </div>
