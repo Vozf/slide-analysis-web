@@ -3,7 +3,6 @@ import * as OpenSeadragon from 'openseadragon';
 import 'openseadragonselection';
 import { api_path } from '../../../global';
 import { ImageCoordinates, ImageDimensions } from '../image.interface';
-import { Subject } from 'rxjs/Subject';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 

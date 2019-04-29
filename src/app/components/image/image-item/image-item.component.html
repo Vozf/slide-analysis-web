@@ -1,11 +1,7 @@
 <div class='item-container'>
     <mat-toolbar class="app-toolbar" color="primary">
-        <span>Whole Slide Image Analysis</span>
+        <a class="home" routerLink="/"><span>Whole Slide Image Analysis</span></a>
         <span class="fill-remaining-space"></span>
-        <!--<button mat-raised-button id="settingsDropdown" [matMenuTriggerFor]="menu" color="primary">Settings</button>-->
-        <!--<mat-menu #menu="matMenu">-->
-            <!--<app-image-settings></app-image-settings>-->
-        <!--</mat-menu>-->
         <div ngbDropdown placement="bottom-right" autoClose="outside">
             <button mat-raised-button id="settingsDropdown" ngbDropdownToggle color="primary">Settings</button>
             <div ngbDropdownMenu aria-labelledby="settingsDropdown">
