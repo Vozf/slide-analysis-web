@@ -3,8 +3,11 @@ import { ImagePreviewService } from '../image-preview.service';
 import { Filter, ImageFolder } from '../image.interface';
 import { BehaviorSubject } from 'rxjs';
 import { switchMap } from 'rxjs/internal/operators/switchMap';
-import { pluck } from 'rxjs/operators';
+import { mapTo, pluck } from 'rxjs/operators';
 import { ImageListService } from './image-list.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ImageListRecalculateModalComponent } from './image-list-recalculate-modal/image-list-recalculate-modal.component';
+import { fromPromise } from 'rxjs/internal-compatibility';
 
 @Component({
     selector: 'app-image-list',
@@ -21,7 +24,11 @@ export class ImageListComponent {
         switchMap(this.imageService.getPreviews.bind(this.imageService)),
     );
 
-    constructor(private imageService: ImagePreviewService, private imageListService: ImageListService) {
+    constructor(
+        private imageService: ImagePreviewService,
+        private imageListService: ImageListService,
+        private modalService: NgbModal,
+    ) {
     }
 
     updateSearch(search) {
@@ -29,7 +36,12 @@ export class ImageListComponent {
     }
 
     recalculate(folder: ImageFolder) {
-        this.imageListService.recalculate(folder.name).subscribe();
+        fromPromise(this.modalService.open(ImageListRecalculateModalComponent, { size: 'lg' }).result).pipe(
+            mapTo(folder.name),
+            switchMap(this.imageListService.recalculate.bind(this.imageListService)),
+        )
+            .subscribe();
     }
+
 
 }

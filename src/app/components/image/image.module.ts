@@ -18,6 +18,7 @@ import { SimilarityMapComponent } from './similarity-map/similarity-map.componen
 import { MatIconModule, MatTreeModule } from '@angular/material';
 import { ImageListTreeComponent } from './image-list/image-list-tree/image-list-tree.component';
 import { ImageListService } from './image-list/image-list.service';
+import { ImageListRecalculateModalComponent } from './image-list/image-list-recalculate-modal/image-list-recalculate-modal.component';
 
 const routes: Routes = [
     { path: '', component: ImageListComponent },
@@ -39,6 +40,7 @@ const routes: Routes = [
         ImageDisplayComponent,
         ImageSettingsComponent,
         SimilarityMapComponent,
+        ImageListRecalculateModalComponent,
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -58,6 +60,9 @@ const routes: Routes = [
         SettingsOptionsResolver,
         PropertiesResolver,
         ImageListService,
+    ],
+    entryComponents: [
+        ImageListRecalculateModalComponent,
     ],
     exports: [RouterModule],
 })
