@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { ImageListItems } from '../../components/image/image.interface';
+import { Filter, ImageFolder, ImageListItems } from '../../components/image/image.interface';
 
 export enum ActionTypes {
     SetImages = '[Image List] Set Images',
@@ -15,11 +15,12 @@ export class SetImages implements Action {
 
 export class FilterUpdate implements Action {
     readonly type = ActionTypes.FilterUpdate;
+    constructor(public filter: Filter) {}
 }
 
 export class Recalculate implements Action {
     readonly type = ActionTypes.Recalculate;
-
+    constructor(public folder: ImageFolder) {}
 }
 
 export type Actions = SetImages | FilterUpdate | Recalculate;
