@@ -19,6 +19,8 @@ import { MatIconModule, MatTreeModule } from '@angular/material';
 import { ImageListTreeComponent } from './image-list/image-list-tree/image-list-tree.component';
 import { ImageListService } from './image-list/image-list.service';
 import { ImageListRecalculateModalComponent } from './image-list/image-list-recalculate-modal/image-list-recalculate-modal.component';
+import { StoreModule } from '@ngrx/store';
+import { reducer } from './image-list/store/image-list.reducer';
 
 const routes: Routes = [
     { path: '', component: ImageListComponent },
@@ -51,6 +53,7 @@ const routes: Routes = [
         NgbModule,
         MatTreeModule,
         MatIconModule,
+        StoreModule.forFeature('ImageList', reducer),
     ],
     providers: [
         ImageService,

@@ -19,6 +19,8 @@ export interface ImageFolder extends FileApiResponse {
     children: (ImageFolder | Image)[];
 }
 
+export type ImageListItems = (ImageFolder | Image)[];
+
 export interface ImageCoordinates {
     x: number;
     y: number;

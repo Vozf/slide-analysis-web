@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, partition, toArray, mergeMap } from 'rxjs/operators';
-import { Image, FileApiResponse, FolderApiResponse, ImageFolder } from './image.interface';
+import { Image, FileApiResponse, FolderApiResponse, ImageFolder, ImageListItems } from './image.interface';
 import { ImageService } from './image.service';
 import { from } from 'rxjs/internal/observable/from';
 import { forkJoin } from 'rxjs';
@@ -15,7 +15,7 @@ export class ImagePreviewService {
     constructor(private http: HttpClient, private imageService: ImageService) {
     }
 
-    getPreviews(search = ''): Observable<(ImageFolder | Image)[]> {
+    getPreviews(search = ''): Observable<ImageListItems> {
         const items = this.http.get<(FileApiResponse | FolderApiResponse)[]>('images/previews',
             { params: new HttpParams().append('search', search) }).pipe(
             mergeMap(its => from(its)),
