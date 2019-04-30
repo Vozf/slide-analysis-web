@@ -1,17 +1,10 @@
-import { ActionsUnion, ActionTypes } from './image-list.actions';
-import { ImageListItems } from '../../image.interface';
+import { Actions, ActionTypes } from './actions';
+import { initialState, State } from './state';
 
-export interface State {
-    images: ImageListItems;
-}
-
-export const initialState: State = {
-    images: [],
-};
 
 export function reducer(
     state = initialState,
-    action: ActionsUnion,
+    action: Actions,
 ): State {
     switch (action.type) {
         case ActionTypes.SetImages: {

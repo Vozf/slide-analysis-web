@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, partition, toArray, mergeMap } from 'rxjs/operators';
-import { Image, FileApiResponse, FolderApiResponse, ImageFolder, ImageListItems } from './image.interface';
+import { Image, FileApiResponse, FolderApiResponse, ImageListItems } from './image.interface';
 import { ImageService } from './image.service';
 import { from } from 'rxjs/internal/observable/from';
 import { forkJoin } from 'rxjs';
@@ -24,8 +24,7 @@ export class ImagePreviewService {
         return this.getPreviewsRecursive(items).pipe(tap(it => console.log(it, -1)));
     }
 
-    private getPreviewsRecursive(items: Observable<(FileApiResponse | FolderApiResponse)>): Observable<(ImageFolder
-        | Image)[]> {
+    private getPreviewsRecursive(items: Observable<(FileApiResponse | FolderApiResponse)>): Observable<ImageListItems> {
         const [folders, images] = partition(({ is_folder }) => is_folder)(items);
         const imagesPreviews = (images as Observable<FileApiResponse>).pipe(
             mergeMap(img => this.getPreview(img)),

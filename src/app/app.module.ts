@@ -11,7 +11,7 @@ import { APIInterceptorService } from './apiinterceptor.service';
 import { MaterialModule } from './material.module';
 import { UtilsModule } from './components/utils/utils.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { StoreModule } from '@ngrx/store';
+import { RootStoreModule } from './root-store';
 
 @NgModule({
     declarations: [
@@ -24,7 +24,7 @@ import { StoreModule } from '@ngrx/store';
         HttpClientModule,
         MaterialModule,
         UtilsModule,
-        StoreModule.forRoot({}),
+        RootStoreModule,
     ],
     providers: [{
         provide: HTTP_INTERCEPTORS,

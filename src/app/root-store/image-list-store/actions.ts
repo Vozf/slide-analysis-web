@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { ImageListItems } from '../../image.interface';
+import { ImageListItems } from '../../components/image/image.interface';
 
 export enum ActionTypes {
     SetImages = '[Image List] Set Images',
@@ -22,5 +22,5 @@ export class Recalculate implements Action {
 
 }
 
-export type ActionsUnion = SetImages | FilterUpdate | Recalculate;
+export type Actions = SetImages | FilterUpdate | Recalculate;
 
