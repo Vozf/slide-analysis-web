@@ -5,8 +5,8 @@ import { ImageService } from '../image.service';
 import {
     ImageSettingsOptions,
 } from './image-settings/image-settings.interface';
-import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class PropertiesResolver implements Resolve<any[]> {

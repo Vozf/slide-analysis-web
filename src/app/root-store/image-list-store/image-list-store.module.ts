@@ -6,7 +6,6 @@ import { ImageListStoreEffects } from './effects';
 import { reducer } from './reducer';
 import { ImagePreviewService } from '../../components/image/image-preview.service';
 import { ImageService } from '../../components/image/image.service';
-import { ImageListService } from '../../components/image/image-list/image-list.service';
 
 @NgModule({
     imports: [
@@ -14,6 +13,6 @@ import { ImageListService } from '../../components/image/image-list/image-list.s
         StoreModule.forFeature('imageList', reducer),
         EffectsModule.forFeature([ImageListStoreEffects]),
     ],
-    providers: [ImageListStoreEffects, ImagePreviewService, ImageService, ImageListService],
+    providers: [ImageListStoreEffects, ImagePreviewService, ImageService],
 })
 export class ImageListStoreModule {}

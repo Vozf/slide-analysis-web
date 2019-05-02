@@ -19,6 +19,7 @@ import { MatIconModule, MatTreeModule } from '@angular/material';
 import { ImageListTreeComponent } from './image-list/image-list-tree/image-list-tree.component';
 import { ImageListService } from './image-list/image-list.service';
 import { ImageListRecalculateModalComponent } from './image-list/image-list-recalculate-modal/image-list-recalculate-modal.component';
+import { ImageListRecalculateProgressModalComponent } from './image-list/image-list-recalculate-progress-modal/image-list-recalculate-progress-modal.component';
 
 const routes: Routes = [
     { path: '', component: ImageListComponent },
@@ -41,6 +42,7 @@ const routes: Routes = [
         ImageSettingsComponent,
         SimilarityMapComponent,
         ImageListRecalculateModalComponent,
+        ImageListRecalculateProgressModalComponent,
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -63,6 +65,7 @@ const routes: Routes = [
     ],
     entryComponents: [
         ImageListRecalculateModalComponent,
+        ImageListRecalculateProgressModalComponent,
     ],
     exports: [RouterModule],
 })

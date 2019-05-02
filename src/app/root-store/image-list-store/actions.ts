@@ -18,10 +18,6 @@ export class FilterUpdate implements Action {
     constructor(public filter: Filter) {}
 }
 
-export class Recalculate implements Action {
-    readonly type = ActionTypes.Recalculate;
-    constructor(public folder: ImageFolder) {}
-}
 
-export type Actions = SetImages | FilterUpdate | Recalculate;
+export type Actions = SetImages | FilterUpdate ;
 

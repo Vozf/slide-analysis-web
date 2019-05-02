@@ -7,13 +7,11 @@ import * as featureActions from './actions';
 import { ImageListStoreActions } from './index';
 import { ImagePreviewService } from '../../components/image/image-preview.service';
 import { SetImages } from './actions';
-import { ImageListService } from '../../components/image/image-list/image-list.service';
 
 @Injectable()
 export class ImageListStoreEffects {
     constructor(
         private imagePreviewService: ImagePreviewService,
-        private imageListService: ImageListService,
         private actions$: Actions) {
     }
 
@@ -25,10 +23,5 @@ export class ImageListStoreEffects {
         map(images => new SetImages({ images })),
     );
 
-    @Effect({dispatch: false})
-    reacalculate$: Observable<void> = this.actions$.pipe(
-        ofType<ImageListStoreActions.Recalculate>(featureActions.ActionTypes.Recalculate),
-        map(({ folder: { name } }) => name),
-        switchMap(search => this.imageListService.recalculate(search)),
-    );
+
 }
