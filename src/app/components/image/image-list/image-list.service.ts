@@ -8,6 +8,7 @@ export interface Progress {
     current: number;
     total: number;
     date: Date;
+    isAlive: boolean;
 }
 
 @Injectable()

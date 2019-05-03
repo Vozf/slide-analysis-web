@@ -2,9 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ImageListService, Progress } from '../image-list.service';
 import { ConnectableObservable, interval, Observable, Subject } from 'rxjs';
-import { catchError, map, switchMap, takeUntil, takeWhile } from 'rxjs/operators';
-import { multicast } from 'rxjs/internal/operators/multicast';
-import { tap } from 'rxjs/internal/operators/tap';
+import { catchError, map, switchMap, takeUntil, takeWhile, startWith, multicast } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
 @Component({
@@ -28,16 +26,16 @@ export class ImageListRecalculateProgressModalComponent implements OnInit, OnDes
     ngOnInit(): void {
 
         this.progress$ = this.timer$.pipe(
+            startWith(0),
             switchMap(() => this.imageListService.getProgress(this.threadName)),
             takeUntil(this.destroyed$),
-            takeWhile(({ percent }) => percent < 100, true),
+            takeWhile(({ isAlive }) => isAlive, true),
             multicast(() => new Subject<Progress>()),
         ) as ConnectableObservable<Progress>;
         this.progress$.connect();
 
-        this.complete$ = this.progress$.pipe(map(({ percent }) => percent < 100));
+        this.complete$ = this.progress$.pipe(map(({ isAlive }) => isAlive));
         this.type$ = this.complete$.pipe(
-            tap(val => console.log(val)),
             map(value => (value ? 'info' : 'success')),
             catchError(() => of('danger')),
         );
