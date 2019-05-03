@@ -5,11 +5,12 @@
     </button>
 </div>
 <div class="modal-body">
-    <p><strong>Folder is being precalculated:</strong></p>
+    <p><strong>Folder is being precalculated</strong></p>
     <p>Please don't close this window if you want to track the progress</p>
-    <h5>Progress:</h5>
-    <ngb-progressbar [type]="type$ | async" [value]="percentage$ | async" [animated]="complete$ | async" [striped]="complete$ | async" showValue="true" height="20px"></ngb-progressbar>
+    <h5>Progress: {{(progress$ | async)?.current}} of {{(progress$ | async)?.total}}</h5>
+    <h6>Last check: {{(progress$ | async)?.date | date: "mediumTime"}} </h6>
+    <ngb-progressbar [type]="type$ | async" [value]="(progress$ | async)?.percent" [animated]="complete$ | async" [striped]="complete$ | async" showValue="true" height="20px"></ngb-progressbar>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel')">Cancel</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel')">Close</button>
 </div>

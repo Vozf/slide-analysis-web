@@ -3,6 +3,12 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
+export interface Progress {
+    percent: number;
+    current: number;
+    total: number;
+    date: Date;
+}
 
 @Injectable()
 export class ImageListService {
@@ -16,9 +22,9 @@ export class ImageListService {
         );
     }
 
-    getProgress(threadName: string): Observable<number> {
-        return this.http.get<{ percent: number }>(`images/recalculate/progress/${threadName}`).pipe(
-            map(({ percent }) => percent),
+    getProgress(threadName: string): Observable<Progress> {
+        return this.http.get<Progress>(`images/recalculate/progress/${threadName}`).pipe(
+            map(obj => ({ date: new Date(), ...obj })),
         );
     }
 

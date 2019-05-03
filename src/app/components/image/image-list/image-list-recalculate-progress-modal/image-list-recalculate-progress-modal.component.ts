@@ -1,9 +1,11 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ImageListService } from '../image-list.service';
+import { ImageListService, Progress } from '../image-list.service';
 import { ConnectableObservable, interval, Observable, Subject } from 'rxjs';
-import { map, switchMap, takeUntil, takeWhile } from 'rxjs/operators';
+import { catchError, map, switchMap, takeUntil, takeWhile } from 'rxjs/operators';
 import { multicast } from 'rxjs/internal/operators/multicast';
+import { tap } from 'rxjs/internal/operators/tap';
+import { of } from 'rxjs/observable/of';
 
 @Component({
     selector: 'app-image-list-recalculate-modal',
@@ -13,7 +15,7 @@ import { multicast } from 'rxjs/internal/operators/multicast';
 export class ImageListRecalculateProgressModalComponent implements OnInit, OnDestroy {
     @Input() threadName: string;
     public timer$ = interval(3000);
-    public percentage$: ConnectableObservable<number>;
+    public progress$: ConnectableObservable<Progress>;
     public complete$: Observable<boolean>;
     public type$: Observable<string>;
 
@@ -25,16 +27,20 @@ export class ImageListRecalculateProgressModalComponent implements OnInit, OnDes
 
     ngOnInit(): void {
 
-        this.percentage$ = this.timer$.pipe(
+        this.progress$ = this.timer$.pipe(
             switchMap(() => this.imageListService.getProgress(this.threadName)),
             takeUntil(this.destroyed$),
-            takeWhile(value => value < 100, true),
-            multicast(() => new Subject<number>()),
-        ) as ConnectableObservable<number>;
-        this.percentage$.connect();
+            takeWhile(({ percent }) => percent < 100, true),
+            multicast(() => new Subject<Progress>()),
+        ) as ConnectableObservable<Progress>;
+        this.progress$.connect();
 
-        this.complete$ = this.percentage$.pipe(map(value => value < 100));
-        this.type$ = this.complete$.pipe(map(value => value ? 'info' : 'success'));
+        this.complete$ = this.progress$.pipe(map(({ percent }) => percent < 100));
+        this.type$ = this.complete$.pipe(
+            tap(val => console.log(val)),
+            map(value => (value ? 'info' : 'success')),
+            catchError(() => of('danger')),
+        );
 
     }
 

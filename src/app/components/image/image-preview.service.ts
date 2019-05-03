@@ -6,7 +6,6 @@ import { Image, FileApiResponse, FolderApiResponse, ImageListItems } from './ima
 import { ImageService } from './image.service';
 import { from } from 'rxjs/internal/observable/from';
 import { ConnectableObservable, forkJoin, partition, Subject } from 'rxjs';
-import { tap } from 'rxjs/internal/operators/tap';
 import { multicast } from 'rxjs/internal/operators/multicast';
 
 
@@ -17,7 +16,6 @@ export class ImagePreviewService {
     }
 
     getPreviews(search = ''): Observable<ImageListItems> {
-        console.log('asa');
         const items = this.http.get<(FileApiResponse | FolderApiResponse)[]>('images/previews',
             { params: new HttpParams().append('search', search) }).pipe(
             mergeMap(its => from(its)),
@@ -25,7 +23,7 @@ export class ImagePreviewService {
         ) as ConnectableObservable<FileApiResponse | FolderApiResponse>;
         items.connect();
 
-        return this.getPreviewsRecursive(items).pipe(tap(it => console.log(it, -1)));
+        return this.getPreviewsRecursive(items);
     }
 
     private getPreviewsRecursive(items: Observable<(FileApiResponse | FolderApiResponse)>): Observable<ImageListItems> {
