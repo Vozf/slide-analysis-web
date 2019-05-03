@@ -17,7 +17,6 @@ export class ImageListService {
     }
 
     getProgress(threadName: string): Observable<number> {
-        console.log('progress')
         return this.http.get<{ percent: number }>(`images/recalculate/progress/${threadName}`).pipe(
             map(({ percent }) => percent),
         );

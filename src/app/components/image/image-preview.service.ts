@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { map, partition, toArray, mergeMap } from 'rxjs/operators';
+import { map, toArray, mergeMap } from 'rxjs/operators';
 import { Image, FileApiResponse, FolderApiResponse, ImageListItems } from './image.interface';
 import { ImageService } from './image.service';
 import { from } from 'rxjs/internal/observable/from';
-import { forkJoin } from 'rxjs';
+import { ConnectableObservable, forkJoin, partition, Subject } from 'rxjs';
 import { tap } from 'rxjs/internal/operators/tap';
+import { multicast } from 'rxjs/internal/operators/multicast';
 
 
 @Injectable()
@@ -16,16 +17,19 @@ export class ImagePreviewService {
     }
 
     getPreviews(search = ''): Observable<ImageListItems> {
+        console.log('asa');
         const items = this.http.get<(FileApiResponse | FolderApiResponse)[]>('images/previews',
             { params: new HttpParams().append('search', search) }).pipe(
             mergeMap(its => from(its)),
-        );
+            multicast(() => new Subject<FileApiResponse | FolderApiResponse>()),
+        ) as ConnectableObservable<FileApiResponse | FolderApiResponse>;
+        items.connect();
 
         return this.getPreviewsRecursive(items).pipe(tap(it => console.log(it, -1)));
     }
 
     private getPreviewsRecursive(items: Observable<(FileApiResponse | FolderApiResponse)>): Observable<ImageListItems> {
-        const [folders, images] = partition(({ is_folder }) => is_folder)(items);
+        const [folders, images] = partition(items, ({ is_folder }) => is_folder);
         const imagesPreviews = (images as Observable<FileApiResponse>).pipe(
             mergeMap(img => this.getPreview(img)),
             toArray(),
