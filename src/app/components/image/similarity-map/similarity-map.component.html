@@ -1,9 +1,0 @@
-<div [style.top.px]='y'
-     [style.left.px]='x'
-     [style.width.px]='width'
-     [style.height.px]='height'
-     class='similarity-map-content'
-     *ngIf='mapImage'>
-  <div (mousedown)='onCornerClick($event, bottomLeftResize)' class='map-corner-resize'></div>
-  <img #similarityMap [src]='mapImage.base64' alt='{{mapImage.name}}' (load)="updateContainerSize(similarityMap)">
-</div>

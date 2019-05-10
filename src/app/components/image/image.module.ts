@@ -14,7 +14,6 @@ import { ImageSettingsComponent } from './image-item/image-settings/image-settin
 import { UtilsModule } from '../utils/utils.module';
 import { MaterialModule } from '../../material.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { SimilarityMapComponent } from './similarity-map/similarity-map.component';
 import { MatIconModule, MatTreeModule } from '@angular/material';
 import { ImageListTreeComponent } from './image-list/image-list-tree/image-list-tree.component';
 import { ImageListService } from './image-list/image-list.service';
@@ -40,7 +39,6 @@ const routes: Routes = [
         ImageListTreeComponent,
         ImageDisplayComponent,
         ImageSettingsComponent,
-        SimilarityMapComponent,
         ImageListRecalculateModalComponent,
         ImageListRecalculateProgressModalComponent,
     ],
