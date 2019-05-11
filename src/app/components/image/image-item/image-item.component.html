@@ -1,43 +1,47 @@
-<div class='container'>
-    <div id='images'>
-        <ng-container *ngIf="selectedRegion">
-            <ul>
-                <li>
-                    <h2>Selected image:</h2>
-                    <a (click)="display.setViewCenter(selectedRegion.coordinates)">
-                        <img [src]="selectedRegion.base64">
-                    </a>
-                    <hr>
-                </li>
-                <h2>Images (Similar, Evaluated):</h2>
-
-                <app-loader *ngIf="selectedRegion&&!imageRegions.length"></app-loader>
-
-                <li *ngFor="let image of imageRegions">
-                    <a (click)="display.setViewCenter(image.coordinates)">
-                        <img [src]="image.base64">
-                    </a>
-                    <p *ngIf="image.coordinates.score">Score: {{image.coordinates.score}}</p>
-                </li>
-            </ul>
-        </ng-container>
-    </div>
-    <app-image-display imageId='{{imageId}}' (select)='onSelect($event)' [regions]="imageRegions"></app-image-display>
-    <div id='properties'>
-        <app-image-settings></app-image-settings>
-        <ng-container *ngIf="mapImage">
-            <h3>Similarity map</h3>
-            <img [src]="mapImage.base64" alt="{{mapImage.name}}">
-        </ng-container>
-        <h3>Slide properties</h3>
-        <div id='properties-inner'>
-            <dl *ngFor="let prop of properties">
-                <dt>{{ prop[0] }}
-                <dd>{{ prop[1] }}
-            </dl>
+<mat-toolbar class="app-toolbar" color="primary">
+    <a class="home" routerLink="/"><span>Whole Slide Image Analysis</span></a>
+    <span class="fill-remaining-space"></span>
+    <div ngbDropdown placement="bottom-right" autoClose="outside">
+        <button mat-raised-button ngbDropdownToggle color="primary">
+            Settings
+        </button>
+        <div ngbDropdownMenu aria-labelledby="settingsDropdown">
+            <app-image-settings></app-image-settings>
         </div>
     </div>
+</mat-toolbar>
+<div class='cont'>
+    <div id='images' *ngIf="searchResult$ | async as searchResult">
+
+        <ul>
+            <li>
+                <h2>Similarity map:</h2>
+                <img [src]="searchResult.mapImage.base64" alt="{{searchResult.mapImage.name}}">
+                <hr>
+
+            </li>
+            <li>
+                <h2>Selected image:</h2>
+                <a (click)="display.setViewCenter(searchResult.selectedRegion.coordinates)">
+                    <img [src]="searchResult.selectedRegion.base64">
+                </a>
+                <hr>
+            </li>
+            <h2>Images (Similar, Evaluated):</h2>
+
+            <li *ngFor="let image of searchResult.regions">
+                <a (click)="display.setViewCenter(image.coordinates)">
+                    <img [src]="image.base64">
+                </a>
+                <p *ngIf="image.coordinates.score">Score: {{image.coordinates.score}}</p>
+            </li>
+        </ul>
+    </div>
+    <app-image-display *ngIf="!(isLoading$ | async)" imageId='{{imageId$ | async}}'
+                       (select)='onSelect($event)'
+                       [regions]="(searchResult$ | async)?.regions"></app-image-display>
 </div>
+<app-loader *ngIf="isLoading$ | async"></app-loader>
 
 
 

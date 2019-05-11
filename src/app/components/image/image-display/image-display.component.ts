@@ -3,7 +3,6 @@ import * as OpenSeadragon from 'openseadragon';
 import 'openseadragonselection';
 import { api_path } from '../../../global';
 import { ImageCoordinates, ImageDimensions } from '../image.interface';
-import { Subject } from 'rxjs/Subject';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
@@ -22,14 +21,18 @@ export class ImageDisplayComponent implements OnInit {
 
     dimensions: ImageDimensions;
     @Output() select: EventEmitter<ImageCoordinates> = new EventEmitter();
-    @Input() imageId: string;
+    @Input()
+    set imageId(imageId: string) {
+        this.imageId$.next(imageId);
+    }
 
     @Input()
     set regions(regions) {
         this.regions$.next(regions);
     }
 
-    private regions$: Subject<any> = new ReplaySubject<any>();
+    private regions$: ReplaySubject<any> = new ReplaySubject<any>();
+    private imageId$: ReplaySubject<string> = new ReplaySubject<string>();
 
     constructor() {
     }
@@ -67,7 +70,6 @@ export class ImageDisplayComponent implements OnInit {
             },
         });
 
-        this.openSlide(this.imageId);
         this.viewer.addHandler('open', () => {
             this.viewer.source.minLevel = 8;
             this.dimensions = this.viewer.world.getItemAt(0).getContentSize();
@@ -81,7 +83,7 @@ export class ImageDisplayComponent implements OnInit {
         this.regions$.pipe(
             distinctUntilChanged(),
         ).subscribe(regions => {
-            if (!regions.length) {
+            if (!regions || !regions.length) {
                 return;
             }
             this.overlay.onRedraw = () => {
@@ -96,6 +98,7 @@ export class ImageDisplayComponent implements OnInit {
             this.overlay._updateCanvas();
         });
 
+        this.imageId$.subscribe(imageId => this.openSlide(imageId));
     }
 
     openSlide(imageId) {

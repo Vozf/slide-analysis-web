@@ -1,30 +1,9 @@
-.container {
-  display:flex;
-  height: 100%;
-}
-
-mat-grid-tile {
-  border: 1px solid red;
-}
-
-mat-grid-list {
-  height: 1000px;
-}
-
-html {
-  overflow: hidden;
-}
-
-body {
-  margin: 5px;
-}
-
-.notice {
-  font-style: italic;
+.cont {
+  display: flex;
+  height: 90%;
 }
 
 div#images {
-  //position: absolute;
   width: 15%;
 }
 
@@ -63,36 +42,25 @@ div#images ul {
 }
 
 app-image-display {
-  //position: absolute;
-  //left: 16%;
-  width: 58%;
-  height: 98%;
-  background-color: black;
+  background-color: white;
   border: 1px solid #000;
   color: white;
+  flex-grow: 1;
+
 }
 
-div#properties {
-  //position: absolute;
-  //left: 75%;
-  width: 24.5%;
-  //height: 98%;
-  padding: 0 10px;
-  overflow: auto;
+.fill-remaining-space {
+  flex: 1 1 auto;
 }
 
-
-div#properties dl {
-  font-size: small;
-  margin: 0;
+.home {
+  color: inherit;
 }
 
-div#properties dt {
-  font-weight: bold;
-  border-top: 1px solid #000;
-  background-color: #eee;
-}
-
-div#properties dd {
-  margin-left: 0;
+app-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%)
 }

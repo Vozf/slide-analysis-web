@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { concat, map, switchMap, toArray } from 'rxjs/operators';
 import { forkJoin } from 'rxjs/observable/forkJoin';
-import { Image, ImageCoordinates, ImageRegion } from './image.interface';
+import { Image, ImageCoordinates, ImageRegion, Region } from './image.interface';
 import { ImageService } from './image.service';
 import { ImageSettingsState, SimilarImageSettingsOptions } from './image-item/image-settings/image-settings.interface';
 
@@ -28,7 +28,7 @@ export class SimilarImageService {
             ));
     }
 
-    getSimilarityMap(imageId: string, coordinates: ImageCoordinates): Observable<Image> {
+    getSimilarityMap(imageId: string, coordinates: ImageCoordinates): Observable<Region> {
         const { x, y, width, height } = coordinates;
         const queryParams = new HttpParams()
             .append('x', x.toString())

@@ -7,8 +7,9 @@ h2 {
 }
 
 .list-container {
+  padding: 5px 5px 0;
   margin: auto;
-  width: fit-content;
+  max-width: 600px;
 }
 
 .image-list {
@@ -16,4 +17,16 @@ h2 {
 }
 
 .image {
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+.image-filter {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 18px;
+  margin-bottom: 15px;
 }

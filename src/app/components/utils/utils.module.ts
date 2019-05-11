@@ -12,6 +12,9 @@ import { LoaderComponent } from './loader/loader.component';
     exports: [
         LoaderComponent,
     ],
+    entryComponents: [
+        LoaderComponent,
+    ],
 })
 export class UtilsModule {
 }
