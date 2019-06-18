@@ -1,3 +1,4 @@
+## Available at www.image.org.by/histology
 ### This repository is web client of Slide analysis project. To run this project follow the instructions.
 ## Instructions:
 1. Install os requirements
