@@ -29,7 +29,7 @@
     "@ngrx/store": "^7.4.0",
     "core-js": "^2.4.1",
     "hammerjs": "^2.0.8",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.13",
     "openseadragon": "^2.3.1",
     "openseadragonselection": "^1.8.0",
     "rxjs": "^6.5.1",
